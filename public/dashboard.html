@@ -17,8 +17,8 @@
             --info-blue: #3B82F6;
             --warning-orange: #F59E0B;
             --text-primary: #FFFFFF;
-            --text-secondary: #D1D5DB;
-            --text-muted: #9CA3AF;
+            --text-secondary: #E5E7EB;
+            --text-muted: #D1D5DB;
             --text-accent: #FCD34D;
             --surface-primary: rgba(255, 255, 255, 0.1);
             --surface-secondary: rgba(255, 255, 255, 0.05);
@@ -61,6 +61,12 @@
             margin: 1.5rem 0;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
+        }
+        
+        .dashboard-card h3 {
+            color: var(--text-primary);
+            font-weight: 600;
         }
         
         .dashboard-card:hover {
@@ -131,6 +137,19 @@
             overflow: hidden;
         }
         
+        .batch-card h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .batch-card p {
+            color: var(--text-secondary);
+        }
+        
+        .batch-card .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
         .batch-card::before {
             content: '';
             position: absolute;
@@ -162,6 +181,11 @@
             border-radius: 0 12px 12px 0;
             transition: all 0.2s ease;
             position: relative;
+            color: var(--text-primary);
+        }
+        
+        .scan-item strong {
+            color: var(--text-primary);
         }
         
         .scan-item:hover {
@@ -257,19 +281,23 @@
         .no-data {
             text-align: center;
             padding: 4rem 2rem;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
         
         .no-data i {
             color: var(--text-muted);
-            opacity: 0.6;
+            opacity: 0.7;
             margin-bottom: 1.5rem;
         }
         
         .no-data h3 {
-            color: var(--text-secondary);
+            color: var(--text-primary);
             font-weight: 600;
             margin-bottom: 1rem;
+        }
+        
+        .no-data p {
+            color: var(--text-secondary);
         }
 
         .timestamp {
@@ -300,6 +328,40 @@
         .bg-warning {
             background: linear-gradient(135deg, var(--warning-orange), #D97706) !important;
             color: white !important;
+        }
+        
+        .batch-info {
+            color: var(--text-secondary) !important;
+        }
+        
+        .batch-info strong {
+            color: var(--text-primary) !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--text-primary) !important;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--bnb-yellow) !important;
+        }
+        
+        .dropdown-menu {
+            background: var(--bnb-dark);
+            border: 1px solid var(--border-primary);
+        }
+        
+        .dropdown-item {
+            color: var(--text-secondary) !important;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(240, 185, 11, 0.1);
+            color: var(--text-primary) !important;
+        }
+        
+        .dropdown-item-text {
+            color: var(--text-muted) !important;
         }
 
         .spinner-border {
@@ -674,7 +736,7 @@
             const batchesList = document.getElementById('batchesList');
             
             if (batches.length === 0) {
-                batchesList.innerHTML = '<p class="text-muted">No batches found</p>';
+                batchesList.innerHTML = '<p style="color: var(--text-secondary);">No batches found</p>';
                 return;
             }
 
@@ -687,7 +749,7 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5>${batch.batchName}</h5>
-                            <p class="text-muted mb-2">
+                            <p class="batch-info mb-2">
                                 <strong>ID:</strong> ${batch.batchId}<br>
                                 <strong>Type:</strong> ${batch.productType}<br>
                                 <strong>Created:</strong> ${new Date(batch.uploadTimestamp || batch.createdAt).toLocaleDateString()}
@@ -729,7 +791,7 @@
             const batchesList = document.getElementById('batchesList');
             
             if (scannedBatches.length === 0) {
-                batchesList.innerHTML = '<p class="text-muted">No batches scanned yet</p>';
+                batchesList.innerHTML = '<p style="color: var(--text-secondary);">No batches scanned yet</p>';
                 return;
             }
 
@@ -739,7 +801,7 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5>${batch.batchName || batch.productName || 'Unknown Product'}</h5>
-                            <p class="text-muted mb-2">
+                            <p class="batch-info mb-2">
                                 <strong>ID:</strong> ${batch.batchId || batch.productId}<br>
                                 <strong>Manufacturer:</strong> ${batch.manufacturerName || 'Unknown'}<br>
                                 <strong>Last Scanned:</strong> ${new Date(batch.lastScanned).toLocaleDateString()}
@@ -764,7 +826,7 @@
             const batchesList = document.getElementById('batchesList');
             
             if (viewedBatches.length === 0) {
-                batchesList.innerHTML = '<p class="text-muted">No batches viewed yet</p>';
+                batchesList.innerHTML = '<p style="color: var(--text-secondary);">No batches viewed yet</p>';
                 return;
             }
 
@@ -774,7 +836,7 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5>${batch.batchName || batch.productName || 'Unknown Product'}</h5>
-                            <p class="text-muted mb-2">
+                            <p class="batch-info mb-2">
                                 <strong>ID:</strong> ${batch.batchId || batch.productId}<br>
                                 <strong>Manufacturer:</strong> ${batch.manufacturerName || 'Unknown'}<br>
                                 <strong>Last Viewed:</strong> ${new Date(batch.lastViewed).toLocaleDateString()}
@@ -799,7 +861,7 @@
             const recentActivity = document.getElementById('recentActivity');
             
             if (!recentScans || recentScans.length === 0) {
-                recentActivity.innerHTML = '<p class="text-muted">No scan activity yet</p>';
+                recentActivity.innerHTML = '<p style="color: var(--text-secondary);">No scan activity yet</p>';
                 return;
             }
 

@@ -35,8 +35,8 @@ Before running this project, ensure you have:
 ### 1. Clone and Install
 
 ```bash
-git clone <your-repo-url>
-cd bnb_hack
+git clone https://github.com/HashimCodeDev/ScanChain.git
+cd ScanChain
 uv sync
 ```
 
@@ -183,7 +183,7 @@ POST /api/qr/scan
 ## 🏗️ Project Structure
 
 ```
-bnb_hack/
+ScanChain/
 ├── contracts/
 │   └── ProductAuthenticity.sol      # Smart contract
 ├── services/
@@ -201,7 +201,7 @@ bnb_hack/
 ├── app.py                           # Main Flask application
 ├── run.py                           # Server runner
 ├── test_app.py                      # Test suite
-├── requirements.txt                 # Python dependencies
+├── pyproject.toml                   # Python dependencies (uv)
 ├── .env
 └── README.md
 ```
@@ -275,8 +275,8 @@ Common error codes:
 
 1. Create new service files in `services/`
 2. Add routes in `routes/`
-3. Update validation in `middleware/validation.js`
-4. Add tests in `scripts/test.js`
+3. Update validation in Flask app
+4. Add tests in `test_app.py`
 
 ### Environment Variables
 
@@ -294,7 +294,7 @@ Optional variables:
 
 ### Common Issues
 
-1. **Contract not deployed**: Run `npm run deploy-info` for instructions
+1. **Contract not deployed**: Deploy using Remix IDE with the provided Solidity contract
 2. **Network issues**: Check RPC URLs and internet connection
 3. **Private key errors**: Ensure keys are valid and have test funds
 4. **File upload fails**: Check file size and type restrictions
@@ -322,7 +322,7 @@ This project is licensed under the MIT License.
 
 For support and questions:
 - Check the troubleshooting section
-- Run `npm test` to verify setup
+- Run `uv run python test_app.py` to verify setup
 - Review server logs for error details
 
 ## 🎯 Roadmap
