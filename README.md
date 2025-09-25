@@ -11,6 +11,12 @@ ScanChain is a blockchain-based product authenticity verification system built o
 - **Hash Verification**: SHA-256 hash comparison for tamper detection
 - **Multi-format Support**: PDF and JSON file support
 
+## 🎥 Demo Video
+
+[**Watch ScanChain Demo**](https://drive.google.com/file/d/1ZsiyckN-RSQg4RmrPDLJEAWvYBmvjAen/view?usp=sharing)
+
+See ScanChain in action - from product upload to QR code verification!
+
 ## 🛠️ Tech Stack
 
 - **Backend**: Python with Flask
