@@ -17,6 +17,9 @@ COPY . .
 # Create data directory for JSON storage
 RUN mkdir -p data
 
+# Create volume for data persistence
+VOLUME ["/app/data"]
+
 # Expose port
 EXPOSE 5000
 
