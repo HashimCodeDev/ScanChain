@@ -2,249 +2,50 @@
   "users": [
     {
       "id": 1,
-      "username": "techcorp_mfg",
+      "username": "manufacturer",
       "email": "manufacturer@techcorp.com",
-      "password": "$2b$12$rHIfwTfwKCaS9XIEcYpvIO70CeYIov67Xbdv.4.egTGdsP7W1QQWS",
+      "password": "$2b$12$w4w2Fy17V/vzv6LsnhmElO3BVgQouYy0RGBW34Pr/O7Kcc59FZZ7q",
       "fullName": "TechCorp Manufacturing",
       "role": "manufacturer",
       "companyName": "TechCorp Industries",
       "verified": true,
-      "createdAt": "2025-07-19T11:59:39.793Z",
-      "lastLogin": "2025-09-25T23:11:25.385064",
+      "createdAt": "2025-09-25T23:39:18.849480",
+      "lastLogin": "2025-09-25T23:40:04.202877",
       "blockchainHashes": [
-        {
-          "batchId": "123456",
-          "fileHash": "1cd77c1e34108988ff696202a4741c4c50ab0d8de287d4a904ef0dd6063ccfd2",
-          "txHash": "0x879ffce341b9fa51971bd42aeeb77fdd58ca2e4a013bdaa12b1ab856f815f5f3",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "Batch-1",
-          "timestamp": "2025-09-25T20:05:03.125337"
-        },
-        {
-          "batchId": "123456",
-          "fileHash": "f0097bc4e1bbe69bd90a70005b7de96112d971e6a2f4d1a9c14893d5c0ebde17",
-          "txHash": "0x166c43eca48de716061eb9c6a98ecf3489dfa819e6bfa9598b6ada0bc4d3fe5f",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "Batch-2",
-          "timestamp": "2025-09-25T20:34:45.270289"
-        },
         {
           "batchId": "123456",
           "fileHash": "a767b94536abd0053bc50de6aaa527d2f1fa519ce8a92eacee4b6d6d26c9e120",
           "txHash": "0x99c9255e8d4cfac768c2d884a82d31a1c5df02990437cc5efeeed46c37d97386",
           "contractAddress": "0x0000000000000000000000000000000000000000",
           "blockNumber": null,
-          "productName": "Batch-4",
-          "timestamp": "2025-09-25T21:07:56.128159"
-        },
-        {
-          "batchId": "Batch 56",
-          "fileHash": "1cd77c1e34108988ff696202a4741c4c50ab0d8de287d4a904ef0dd6063ccfd2",
-          "txHash": "0xbc5680517333e2377ff0fb577fcb7d1d2016f293b955cd8c40d735db23b68837",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "Batch no 5",
-          "timestamp": "2025-09-25T22:42:44.737136"
+          "productName": "Batch-9",
+          "timestamp": "2025-09-25T23:40:47.064130"
         }
       ],
       "profileData": {
-        "totalBatches": 4,
+        "totalBatches": 1,
         "totalScans": 0,
-        "joinedAt": "2025-07-19T11:59:39.793Z"
+        "joinedAt": "2025-09-25T23:39:18.849491"
       }
     },
     {
       "id": 2,
-      "username": "logistics_supplier",
+      "username": "supplier",
       "email": "supplier@logistics.com",
-      "password": "$2b$12$vVi9zY4UZcJybgzahHKrZeuEAt3Wgii1UYFKtOxe40hyqPI5vjfha",
+      "password": "$2b$12$Za8carRhspOiez4IuHzx..VhEQA/6VbIW5jcHikizySUdA6GHg.0G",
       "fullName": "Global Logistics Supplier",
       "role": "supplier",
       "companyName": "Global Logistics Inc",
       "verified": true,
-      "createdAt": "2025-07-19T11:59:40.055Z",
-      "lastLogin": "2025-09-25T22:40:26.640474",
+      "createdAt": "2025-09-25T23:39:19.031060",
+      "lastLogin": "2025-09-25T23:39:29.811496",
       "blockchainHashes": [],
       "profileData": {
         "totalBatches": 0,
         "totalScans": 0,
-        "joinedAt": "2025-07-19T11:59:40.055Z"
-      }
-    },
-    {
-      "id": 3,
-      "username": "ashutoshaianule",
-      "email": "ashutoshaianule@gmail.com",
-      "password": "$2b$12$T2hQlt.ALMgCK5bkXSMsHO6noOE..R2Yi4NHsa.spmGDFc0gzDIsa",
-      "fullName": "HARDCORE EAGLE",
-      "role": "manufacturer",
-      "companyName": "Xinetee",
-      "verified": true,
-      "createdAt": "2025-07-19T12:34:31.824682",
-      "lastLogin": "2025-08-05T13:30:41.517682",
-      "blockchainHashes": [
-        {
-          "batchId": "001",
-          "fileHash": "28133d80cc88b72c0d5a2acdea5ae17b305e14ea0f9618d5191cae707c8e1512",
-          "txHash": "0xe19dcf0b37ef90691bf6be538bf26156b76fbb55b55f3263524c8bd629364f6b",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "biscuit_001",
-          "timestamp": "2025-07-19T20:32:41.221828"
-        },
-        {
-          "batchId": "001",
-          "fileHash": "28133d80cc88b72c0d5a2acdea5ae17b305e14ea0f9618d5191cae707c8e1512",
-          "txHash": "0xe19dcf0b37ef90691bf6be538bf26156b76fbb55b55f3263524c8bd629364f6b",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "biscuit_001",
-          "timestamp": "2025-07-19T21:27:26.543557"
-        },
-        {
-          "batchId": "002",
-          "fileHash": "28133d80cc88b72c0d5a2acdea5ae17b305e14ea0f9618d5191cae707c8e1512",
-          "txHash": "0xd8f52d8220f71a9d70613210cb0f4ab384cf2ac2aa8b3d86d2614013c4a50e0e",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "biscuit ",
-          "timestamp": "2025-07-20T08:15:57.783501"
-        },
-        {
-          "batchId": "003",
-          "fileHash": "28133d80cc88b72c0d5a2acdea5ae17b305e14ea0f9618d5191cae707c8e1512",
-          "txHash": "0x18fc5f8dff6b0c34ce6e9bea48ec24cdbee3d5703db6f5f58770c17bb5130a10",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "nike",
-          "timestamp": "2025-07-20T08:27:27.170179"
-        },
-        {
-          "batchId": "1010",
-          "fileHash": "28133d80cc88b72c0d5a2acdea5ae17b305e14ea0f9618d5191cae707c8e1512",
-          "txHash": "0x63a4d5b43d58da9844093f32ea874712744f15823fec4add5346777b246ee553",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "nike_01",
-          "timestamp": "2025-07-20T08:37:45.959125"
-        },
-        {
-          "batchId": "007",
-          "fileHash": "d377bb18a9c4c8cccbde1f1c224e5c440bb1107d43c73d19eb2a80278412335d",
-          "txHash": "0xc423396f750cf75c4d98d470efc0f54176bbca855f3d1cec4a45a3dfafa3964d",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "Raymond_1",
-          "timestamp": "2025-08-01T06:10:20.864814"
-        },
-        {
-          "batchId": "0008",
-          "fileHash": "ddd65aa73ec3cc5b487c50edf2c44752a0453d9a7fecfb816d588fec88635add",
-          "txHash": "0x66bc0e8fd3625d668902444363bbe9a377d8547bdae95debabe10a80ebaa6db5",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "Maggi_1",
-          "timestamp": "2025-08-01T06:12:07.363819"
-        },
-        {
-          "batchId": "27",
-          "fileHash": "d377bb18a9c4c8cccbde1f1c224e5c440bb1107d43c73d19eb2a80278412335d",
-          "txHash": "0x210f7f6e55f0891b96429c314582126a80151e175a1f0936989d5b15298cc541",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "biscuit_002",
-          "timestamp": "2025-08-04T04:29:12.570725"
-        },
-        {
-          "batchId": "009",
-          "fileHash": "d377bb18a9c4c8cccbde1f1c224e5c440bb1107d43c73d19eb2a80278412335d",
-          "txHash": "0x7f57166d61a96d61d06e8a9f24e3fb576b4dfdc1a0cac20309e63750ce751ce2",
-          "contractAddress": "0x0000000000000000000000000000000000000000",
-          "blockNumber": null,
-          "productName": "Maggi_6",
-          "timestamp": "2025-08-04T06:28:20.938914"
-        }
-      ],
-      "profileData": {
-        "totalBatches": 9,
-        "totalScans": 0,
-        "joinedAt": "2025-07-19T12:34:31.824682"
-      }
-    },
-    {
-      "id": 4,
-      "username": "test",
-      "email": "test@example.com",
-      "password": "$2b$12$G8Y7u/w5a/rboTiXlimBgeNPkGKZaZdKL9Svr/YhDcvIK0n418w/G",
-      "fullName": "Test User",
-      "role": "user",
-      "companyName": "Test Company",
-      "verified": true,
-      "createdAt": "2025-07-19T12:51:45.000020",
-      "lastLogin": "2025-07-19T12:51:48.990090",
-      "blockchainHashes": [],
-      "profileData": {
-        "totalBatches": 0,
-        "totalScans": 0,
-        "joinedAt": "2025-07-19T12:51:45.000020"
-      }
-    },
-    {
-      "id": 5,
-      "username": "official7997",
-      "email": "official7997@gmail.com",
-      "password": "$2b$12$f1ID.NLgVmEUs6OfHMXxjud8.ITtUouYZvTx9TqoHATcdGE1k66eS",
-      "fullName": "Tanmay",
-      "role": "supplier",
-      "companyName": "ndsn",
-      "verified": true,
-      "createdAt": "2025-07-19T21:32:01.908384",
-      "lastLogin": "2025-07-20T08:38:59.787298",
-      "blockchainHashes": [],
-      "profileData": {
-        "totalBatches": 0,
-        "totalScans": 0,
-        "joinedAt": "2025-07-19T21:32:01.908384"
-      }
-    },
-    {
-      "id": 6,
-      "username": "samyak",
-      "email": "samyak@gmail.com",
-      "password": "$2b$12$uVbLmK0yMgObqoa/wi3SleoGgmf.cos/tcL.cFrmZE..beARzpUiK",
-      "fullName": "samyak",
-      "role": "user",
-      "companyName": "ndsn",
-      "verified": true,
-      "createdAt": "2025-07-19T22:10:15.626118",
-      "lastLogin": "2025-08-04T06:31:27.304326",
-      "blockchainHashes": [],
-      "profileData": {
-        "totalBatches": 0,
-        "totalScans": 0,
-        "joinedAt": "2025-07-19T22:10:15.626118"
-      }
-    },
-    {
-      "id": 7,
-      "username": "techmanofficial123",
-      "email": "techmanofficial123@gmail.com",
-      "password": "$2b$12$NbtnIUYfE3tQ6OINA5ztIOuWg3Z4f4bhJ2n3BOcNOt2G2zBtH9yDW",
-      "fullName": "Demo person",
-      "role": "manufacturer",
-      "companyName": "ABC Company pvt ltd",
-      "verified": true,
-      "createdAt": "2025-09-25T19:39:52.581869",
-      "lastLogin": "2025-09-25T19:51:13.765378",
-      "blockchainHashes": [],
-      "profileData": {
-        "totalBatches": 0,
-        "totalScans": 0,
-        "joinedAt": "2025-09-25T19:39:52.581880"
+        "joinedAt": "2025-09-25T23:39:19.031070"
       }
     }
   ],
-  "lastUserId": 7
+  "lastUserId": 2
 }
