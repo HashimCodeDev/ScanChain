@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test - ScanChain</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        input {
+            width: 200px;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 ScanChain Authentication Test</h1>
+        <p>This page tests the authentication system to identify issues.</p>
+    </div>
+
+    <div class="container">
+        <div class="test-section">
+            <h3>📝 User Registration Test</h3>
+            <div>
+                <input type="email" id="regEmail" placeholder="Email" value="test@example.com">
+                <input type="password" id="regPassword" placeholder="Password" value="testpass123">
+                <input type="text" id="regFullName" placeholder="Full Name" value="Test User">
+                <button onclick="testRegistration()">Register User</button>
+            </div>
+            <div id="regResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔐 User Login Test</h3>
+            <div>
+                <input type="email" id="loginEmail" placeholder="Email" value="test@example.com">
+                <input type="password" id="loginPassword" placeholder="Password" value="testpass123">
+                <button onclick="testLogin()">Login User</button>
+                <button onclick="testDemoLogin()">Demo Login</button>
+            </div>
+            <div id="loginResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Token Verification Test</h3>
+            <div>
+                <button onclick="testTokenVerification()">Verify Current Token</button>
+                <button onclick="clearStorage()">Clear Storage</button>
+            </div>
+            <div id="verifyResult" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Current Status</h3>
+            <div>
+                <button onclick="checkStatus()">Check Auth Status</button>
+                <button onclick="viewStoredData()">View Stored Data</button>
+            </div>
+            <div id="statusResult" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        async function testRegistration() {
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const fullName = document.getElementById('regFullName').value;
+            
+            const resultDiv = document.getElementById('regResult');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Registering user...';
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        fullName: fullName,
+                        role: 'user',
+                        companyName: 'Test Company'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    localStorage.setItem('authToken', result.token);
+                    localStorage.setItem('userData', JSON.stringify(result.user));
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Registration successful!\nUser: ${result.user.fullName}\nToken stored in localStorage`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Registration failed: ${result.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Network error: ${error.message}`;
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const resultDiv = document.getElementById('loginResult');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Logging in...';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    localStorage.setItem('authToken', result.token);
+                    localStorage.setItem('userData', JSON.stringify(result.user));
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Login successful!\nUser: ${result.user.fullName}\nToken: ${result.token.substring(0, 50)}...`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Login failed: ${result.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Network error: ${error.message}`;
+            }
+        }
+
+        async function testDemoLogin() {
+            const resultDiv = document.getElementById('loginResult');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Demo login...';
+            
+            try {
+                const response = await fetch('/api/auth/demo-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userType: 'manufacturer'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    localStorage.setItem('authToken', result.token);
+                    localStorage.setItem('userData', JSON.stringify(result.user));
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Demo login successful!\nUser: ${result.user.fullName}\nRole: ${result.user.role}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Demo login failed: ${result.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Network error: ${error.message}`;
+            }
+        }
+
+        async function testTokenVerification() {
+            const token = localStorage.getItem('authToken');
+            const resultDiv = document.getElementById('verifyResult');
+            resultDiv.style.display = 'block';
+            
+            if (!token) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '❌ No token found in localStorage';
+                return;
+            }
+            
+            resultDiv.textContent = 'Verifying token...';
+            
+            try {
+                const response = await fetch('/api/auth/verify', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Token valid!\nUser: ${result.user.fullName}\nEmail: ${result.user.email}\nRole: ${result.user.role}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Token invalid: ${result.error}`;
+                    // Clear invalid token
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userData');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Network error: ${error.message}`;
+            }
+        }
+
+        function clearStorage() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            
+            const resultDiv = document.getElementById('verifyResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result success';
+            resultDiv.textContent = '🗑️ Storage cleared!';
+        }
+
+        function checkStatus() {
+            const token = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('userData');
+            
+            const resultDiv = document.getElementById('statusResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            
+            let status = '📊 Authentication Status:\n\n';
+            status += `Token exists: ${token ? '✅ Yes' : '❌ No'}\n`;
+            
+            if (token) {
+                status += `Token preview: ${token.substring(0, 50)}...\n`;
+            }
+            
+            status += `User data exists: ${userData ? '✅ Yes' : '❌ No'}\n`;
+            
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    status += `User: ${user.fullName} (${user.email})\n`;
+                    status += `Role: ${user.role}\n`;
+                } catch (e) {
+                    status += `❌ Invalid user data format\n`;
+                }
+            }
+            
+            resultDiv.textContent = status;
+        }
+
+        function viewStoredData() {
+            const resultDiv = document.getElementById('statusResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            
+            const data = {
+                authToken: localStorage.getItem('authToken'),
+                userData: localStorage.getItem('userData')
+            };
+            
+            resultDiv.textContent = '💾 Stored Data:\n\n' + JSON.stringify(data, null, 2);
+        }
+
+        // Auto-check status on page load
+        window.addEventListener('load', () => {
+            checkStatus();
+        });
+    </script>
+</body>
+</html>

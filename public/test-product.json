@@ -1,0 +1,20 @@
+{
+  "productName": "Test Product",
+  "manufacturer": "ScanChain Test Co.",
+  "serialNumber": "TEST001",
+  "batchNumber": "BATCH001",
+  "productionDate": "2025-07-19",
+  "specifications": {
+    "weight": "100g",
+    "dimensions": "10x5x2cm",
+    "material": "Plastic",
+    "color": "Blue"
+  },
+  "certifications": [
+    "CE",
+    "FCC",
+    "RoHS"
+  ],
+  "description": "This is a test product file for ScanChain integration testing.",
+  "timestamp": "2025-07-19T12:00:00Z"
+}

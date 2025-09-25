@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Auth Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        pre { background: white; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Simple Authentication Test</h1>
+    <div id="status"></div>
+    <div id="details"></div>
+
+    <script>
+        async function checkAuth() {
+            const statusDiv = document.getElementById('status');
+            const detailsDiv = document.getElementById('details');
+            
+            // Check localStorage
+            const token = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('userData');
+            
+            let details = 'Local Storage Data:\n';
+            details += `Token: ${token ? 'EXISTS (' + token.substring(0, 50) + '...)' : 'NOT FOUND'}\n`;
+            details += `User Data: ${userData ? 'EXISTS' : 'NOT FOUND'}\n\n`;
+            
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    details += `User: ${user.fullName} (${user.email})\n`;
+                    details += `Role: ${user.role}\n\n`;
+                } catch (e) {
+                    details += `Error parsing user data: ${e.message}\n\n`;
+                }
+            }
+            
+            if (!token) {
+                statusDiv.innerHTML = '<div class="error">❌ No authentication token found</div>';
+                detailsDiv.innerHTML = '<pre>' + details + '</pre>';
+                return;
+            }
+            
+            // Test server verification
+            details += 'Server Verification:\n';
+            
+            try {
+                statusDiv.innerHTML = '<div class="info">🔄 Checking authentication with server...</div>';
+                
+                const response = await fetch('/api/auth/verify', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                details += `Response Status: ${response.status} ${response.statusText}\n`;
+                
+                const data = await response.json();
+                details += `Response Data: ${JSON.stringify(data, null, 2)}\n`;
+                
+                if (response.ok && data.success) {
+                    statusDiv.innerHTML = '<div class="success">✅ Authentication successful! You should be able to access the home page.</div>';
+                    details += '\n✅ Authentication is working correctly!\n';
+                    details += 'If the home page is still redirecting, there might be a JavaScript error.\n';
+                } else {
+                    statusDiv.innerHTML = '<div class="error">❌ Authentication failed</div>';
+                    details += `\n❌ Server rejected authentication: ${data.error}\n`;
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="error">❌ Network error during authentication</div>';
+                details += `Network Error: ${error.message}\n`;
+                details += 'This could indicate the server is not running or not accessible.\n';
+            }
+            
+            detailsDiv.innerHTML = '<pre>' + details + '</pre>';
+        }
+        
+        // Run check immediately
+        checkAuth();
+        
+        // Add a button to recheck
+        document.body.innerHTML += '<button onclick="checkAuth()" style="margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Recheck Authentication</button>';
+    </script>
+</body>
+</html>

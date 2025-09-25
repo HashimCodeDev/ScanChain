@@ -1,0 +1,45 @@
+{
+  "productName": "Premium Laptop Model X1",
+  "manufacturer": "TechCorp Industries",
+  "batchNumber": "BATCH-2025-001",
+  "productionDate": "2025-01-15",
+  "serialNumber": "TCX1-202501-001",
+  "specifications": {
+    "processor": "Intel Core i7-12700H",
+    "memory": "16GB DDR4",
+    "storage": "512GB NVMe SSD",
+    "display": "15.6\" 4K IPS",
+    "graphics": "NVIDIA RTX 3060",
+    "weight": "2.1kg",
+    "dimensions": "356 x 235 x 19.9mm",
+    "batteryLife": "8 hours",
+    "warranty": "3 years"
+  },
+  "qualityChecks": {
+    "thermalTest": "Passed",
+    "stressTest": "Passed",
+    "displayCalibration": "Passed",
+    "portFunctionality": "Passed",
+    "keyboardTest": "Passed",
+    "audioTest": "Passed"
+  },
+  "certifications": [
+    "CE Mark",
+    "FCC Certification",
+    "Energy Star",
+    "RoHS Compliance"
+  ],
+  "manufacturingLocation": {
+    "facility": "TechCorp Factory B",
+    "address": "123 Technology Park, Shenzhen, China",
+    "qualityManager": "Zhang Wei",
+    "productionLine": "Line 7"
+  },
+  "metadata": {
+    "fileVersion": "1.0",
+    "createdAt": "2025-01-20T10:30:00Z",
+    "lastModified": "2025-01-20T10:30:00Z",
+    "fileFormat": "JSON",
+    "encoding": "UTF-8"
+  }
+}

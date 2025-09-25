@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturer Dashboard - ScanChain</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bnb-yellow: #F0B90B;
+            --bnb-dark: #1E1E1E;
+            --success-green: #198754;
+            --danger-red: #DC3545;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bnb-dark) 0%, #2c2c2c 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(30, 30, 30, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--bnb-yellow);
+        }
+
+        .navbar-brand {
+            color: var(--bnb-yellow) !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .dashboard-container {
+            margin-top: 100px;
+            padding: 0 20px;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, rgba(240, 185, 11, 0.2), rgba(255, 215, 0, 0.1));
+            border: 1px solid var(--bnb-yellow);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--bnb-yellow);
+        }
+
+        .batch-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .batch-card:hover {
+            border-color: var(--bnb-yellow);
+            background: rgba(240, 185, 11, 0.1);
+        }
+
+        .scan-item {
+            background: rgba(25, 135, 84, 0.1);
+            border-left: 3px solid var(--success-green);
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--bnb-yellow), #FFD700);
+            border: none;
+            color: var(--bnb-dark);
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--bnb-yellow), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bnb-yellow);
+            color: var(--bnb-dark);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(240, 185, 11, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.1);
+            background: #FFD700;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .timestamp {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .spinner-border {
+            color: var(--bnb-yellow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-shield-alt me-2"></i>ScanChain
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/upload">
+                    <i class="fas fa-plus me-1"></i>New Batch
+                </a>
+                <span class="nav-link">
+                    <i class="fas fa-industry me-1"></i>Manufacturer Portal
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h1 class="dashboard-title">Manufacturing Dashboard</h1>
+                <p class="text-muted" id="manufacturerName">Loading...</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-5">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Loading dashboard data...</p>
+            </div>
+
+            <!-- Statistics -->
+            <div id="statsContainer" style="display: none;">
+                <div class="row mb-5">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalBatches">0</div>
+                            <div class="text-muted" id="totalBatchesLabel">Total Batches</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalScans">0</div>
+                            <div class="text-muted" id="totalScansLabel">Total Scans</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="activeToday">0</div>
+                            <div class="text-muted" id="activeTodayLabel">Scans Today</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-number" id="uniqueSuppliers">0</div>
+                            <div class="text-muted" id="uniqueSuppliersLabel">Unique Suppliers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Batches Overview -->
+            <div id="batchesContainer" style="display: none;">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-boxes me-2"></i>Your Batches</h3>
+                    <div id="batchesList"></div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div id="activityContainer" style="display: none;">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-clock me-2"></i>Recent Scan Activity</h3>
+                    <div id="recentActivity"></div>
+                </div>
+            </div>
+
+            <!-- No Data State -->
+            <div id="noDataState" style="display: none;">
+                <div class="dashboard-card">
+                    <div class="no-data">
+                        <i class="fas fa-boxes fa-4x mb-3 text-muted"></i>
+                        <h3>No Batches Found</h3>
+                        <p class="text-muted">You haven't created any batches yet. Start by creating your first batch.</p>
+                        <a href="/upload" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Create First Batch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refresh Button -->
+    <button class="refresh-btn" onclick="loadDashboard()" title="Refresh Dashboard">
+        <i class="fas fa-sync-alt" id="refreshIcon"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentManufacturer = null;
+        let currentUser = null;
+
+        // Check authentication on page load
+        window.addEventListener('load', async () => {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/verify', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const result = await response.json();
+                if (!result.success) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userData');
+                    window.location.href = '/login';
+                    return;
+                }
+
+                currentUser = result.user;
+                displayUserInfo(currentUser);
+                loadDashboard();
+
+            } catch (error) {
+                console.error('Auth verification failed:', error);
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                window.location.href = '/login';
+            }
+        });
+
+        function displayUserInfo(user) {
+            const navbar = document.querySelector('.navbar-nav');
+            if (navbar && user) {
+                const userInfo = document.createElement('li');
+                userInfo.className = 'nav-item dropdown';
+                userInfo.innerHTML = `
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i>${user.fullName}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><span class="dropdown-item-text"><small>Role: ${user.role}</small></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/upload"><i class="fas fa-upload me-2"></i>Upload</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                `;
+                navbar.appendChild(userInfo);
+            }
+        }
+
+        async function logout() {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                try {
+                    await fetch('/api/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.href = '/login';
+        }
+
+        // Get manufacturer from URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const manufacturerParam = urlParams.get('manufacturer');
+
+        async function loadDashboard() {
+            if (!currentUser) return;
+            
+            const refreshIcon = document.getElementById('refreshIcon');
+            refreshIcon.classList.add('fa-spin');
+            
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('statsContainer').style.display = 'none';
+            document.getElementById('batchesContainer').style.display = 'none';
+            document.getElementById('activityContainer').style.display = 'none';
+            document.getElementById('noDataState').style.display = 'none';
+
+            try {
+                // Use current user's ID for dashboard lookup
+                const userId = currentUser.id || currentUser.username;
+                
+                if (!userId) {
+                    window.location.href = '/upload';
+                    return;
+                }
+
+                currentManufacturer = userId;
+                document.getElementById('manufacturerName').textContent = 
+                    currentUser.fullName || currentUser.username || 'User';
+
+                const token = localStorage.getItem('authToken');
+                const response = await fetch(`/api/dashboard/${userId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    displayDashboardData(data);
+                } else {
+                    throw new Error(data.error || 'Failed to load dashboard');
+                }
+
+            } catch (error) {
+                console.error('Dashboard error:', error);
+                showAlert('danger', 'Error loading dashboard: ' + error.message);
+                
+                // Show no data state on error
+                document.getElementById('noDataState').style.display = 'block';
+            } finally {
+                document.getElementById('loadingState').style.display = 'none';
+                refreshIcon.classList.remove('fa-spin');
+            }
+        }
+
+        function displayDashboardData(data) {
+            const userRole = data.role || 'user';
+            const userName = data.userName || 'User';
+            
+            // Update user name in header
+            document.getElementById('manufacturerName').textContent = userName;
+            
+            // Clear previous data
+            document.getElementById('noDataState').style.display = 'none';
+            
+            if (userRole === 'manufacturer') {
+                displayManufacturerDashboard(data);
+            } else if (userRole === 'supplier') {
+                displaySupplierDashboard(data);
+            } else {
+                displayGeneralUserDashboard(data);
+            }
+        }
+
+        function displayManufacturerDashboard(data) {
+            const batches = data.batches || [];
+            const recentScans = data.recentScans || [];
+            const allScans = data.allScans || [];
+            
+            if (batches.length === 0 && allScans.length === 0) {
+                document.getElementById('noDataState').style.display = 'block';
+                return;
+            }
+
+            // Update statistics for manufacturer
+            const totalScans = data.totalScans || 0;
+            const today = new Date().toDateString();
+            const scansToday = allScans.filter(scan => 
+                new Date(scan.timestamp).toDateString() === today
+            ).length;
+            
+            const uniqueSuppliers = data.totalSuppliers || 0;
+
+            // Update statistics
+            document.getElementById('totalBatches').textContent = data.totalBatches || 0;
+            document.getElementById('totalScans').textContent = totalScans;
+            document.getElementById('activeToday').textContent = scansToday;
+            document.getElementById('uniqueSuppliers').textContent = uniqueSuppliers;
+
+            // Reset labels to default for manufacturer
+            document.getElementById('totalBatchesLabel').textContent = 'Total Batches';
+            document.getElementById('totalScansLabel').textContent = 'Total Scans';
+            document.getElementById('activeTodayLabel').textContent = 'Scans Today';
+            document.getElementById('uniqueSuppliersLabel').textContent = 'Unique Suppliers';
+
+            // Display manufacturer batches
+            displayManufacturerBatches(batches, allScans);
+            
+            // Display recent scan activity
+            displayRecentActivity(recentScans);
+
+            // Show containers
+            document.getElementById('statsContainer').style.display = 'block';
+            document.getElementById('batchesContainer').style.display = 'block';
+            document.getElementById('activityContainer').style.display = 'block';
+        }
+
+        function displaySupplierDashboard(data) {
+            const scannedBatches = data.scannedBatches || [];
+            const recentScans = data.recentScans || [];
+            
+            if (scannedBatches.length === 0 && recentScans.length === 0) {
+                document.getElementById('noDataState').style.display = 'block';
+                return;
+            }
+
+            // Update statistics for supplier
+            document.getElementById('totalBatches').textContent = data.totalBatches || 0;
+            document.getElementById('totalScans').textContent = data.totalScans || 0;
+            document.getElementById('activeToday').textContent = data.totalManufacturers || 0;
+            document.getElementById('uniqueSuppliers').textContent = data.totalManufacturers || 0;
+            
+            // Update labels for supplier view
+            document.getElementById('totalBatchesLabel').textContent = 'Batches Scanned';
+            document.getElementById('activeTodayLabel').textContent = 'Manufacturers';
+            document.getElementById('uniqueSuppliersLabel').textContent = 'Manufacturers';
+
+            // Display scanned batches
+            displaySupplierBatches(scannedBatches);
+            
+            // Display recent scan activity
+            displayRecentActivity(recentScans);
+
+            // Show containers
+            document.getElementById('statsContainer').style.display = 'block';
+            document.getElementById('batchesContainer').style.display = 'block';
+            document.getElementById('activityContainer').style.display = 'block';
+        }
+
+        function displayGeneralUserDashboard(data) {
+            const viewedBatches = data.viewedBatches || [];
+            const recentScans = data.recentScans || [];
+            
+            if (viewedBatches.length === 0 && recentScans.length === 0) {
+                document.getElementById('noDataState').style.display = 'block';
+                return;
+            }
+
+            // Update statistics for general user
+            document.getElementById('totalBatches').textContent = data.totalBatches || 0;
+            document.getElementById('totalScans').textContent = data.totalScans || 0;
+            document.getElementById('activeToday').textContent = data.totalManufacturers || 0;
+            document.getElementById('uniqueSuppliers').textContent = data.totalManufacturers || 0;
+            
+            // Update labels for user view
+            document.getElementById('totalBatchesLabel').textContent = 'Batches Viewed';
+            document.getElementById('activeTodayLabel').textContent = 'Manufacturers';
+            document.getElementById('uniqueSuppliersLabel').textContent = 'Manufacturers';
+
+            // Display viewed batches
+            displayUserBatches(viewedBatches);
+            
+            // Display recent scan activity
+            displayRecentActivity(recentScans);
+
+            // Show containers
+            document.getElementById('statsContainer').style.display = 'block';
+            document.getElementById('batchesContainer').style.display = 'block';
+            document.getElementById('activityContainer').style.display = 'block';
+        }
+
+        // Role-specific batch display functions
+        function displayManufacturerBatches(batches, allScans) {
+            const batchesList = document.getElementById('batchesList');
+            
+            if (batches.length === 0) {
+                batchesList.innerHTML = '<p class="text-muted">No batches found</p>';
+                return;
+            }
+
+            batchesList.innerHTML = batches.map(batch => {
+                // Find scans for this batch from the separate scans data
+                const batchScans = allScans ? allScans.filter(scan => scan.batchId === batch.batchId) : (batch.scans || []);
+                
+                return `
+                <div class="batch-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5>${batch.batchName}</h5>
+                            <p class="text-muted mb-2">
+                                <strong>ID:</strong> ${batch.batchId}<br>
+                                <strong>Type:</strong> ${batch.productType}<br>
+                                <strong>Created:</strong> ${new Date(batch.uploadTimestamp || batch.createdAt).toLocaleDateString()}
+                            </p>
+                            ${batch.description ? `<p class="text-muted">${batch.description}</p>` : ''}
+                        </div>
+                        <div class="text-end">
+                            <div class="badge bg-success mb-2">${batchScans.length} Scans</div><br>
+                            <button class="btn btn-primary btn-sm" onclick="viewBatchDetails('${batch.batchId}')">
+                                <i class="fas fa-eye me-1"></i>Details
+                            </button>
+                        </div>
+                    </div>
+                    
+                    ${batchScans.length > 0 ? `
+                        <div class="mt-3">
+                            <h6>Recent Scans:</h6>
+                            <div class="scan-list">
+                                ${batchScans.slice(0, 3).map(scan => `
+                                    <div class="scan-item-small">
+                                        <strong>${scan.supplierName || 'Unknown'}</strong> 
+                                        ${scan.supplierLocation ? `from ${scan.supplierLocation}` : ''}
+                                        <span class="text-muted ms-2">${new Date(scan.timestamp).toLocaleDateString()}</span>
+                                    </div>
+                                `).join('')}
+                                ${batchScans.length > 3 ? `<div class="text-muted">+${batchScans.length - 3} more...</div>` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+                `;
+            }).join('');
+        }
+
+        function displaySupplierBatches(scannedBatches) {
+            const batchesList = document.getElementById('batchesList');
+            
+            if (scannedBatches.length === 0) {
+                batchesList.innerHTML = '<p class="text-muted">No batches scanned yet</p>';
+                return;
+            }
+
+            batchesList.innerHTML = scannedBatches.map(batch => {
+                return `
+                <div class="batch-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5>${batch.batchName || batch.productName || 'Unknown Product'}</h5>
+                            <p class="text-muted mb-2">
+                                <strong>ID:</strong> ${batch.batchId || batch.productId}<br>
+                                <strong>Manufacturer:</strong> ${batch.manufacturerName || 'Unknown'}<br>
+                                <strong>Last Scanned:</strong> ${new Date(batch.lastScanned).toLocaleDateString()}
+                            </p>
+                        </div>
+                        <div class="text-end">
+                            <div class="badge bg-info mb-2">${batch.scanCount || 1} Time(s)</div><br>
+                            <button class="btn btn-primary btn-sm" onclick="viewBatchDetails('${batch.batchId || batch.productId}')">
+                                <i class="fas fa-eye me-1"></i>View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function displayUserBatches(viewedBatches) {
+            const batchesList = document.getElementById('batchesList');
+            
+            if (viewedBatches.length === 0) {
+                batchesList.innerHTML = '<p class="text-muted">No batches viewed yet</p>';
+                return;
+            }
+
+            batchesList.innerHTML = viewedBatches.map(batch => {
+                return `
+                <div class="batch-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5>${batch.batchName || batch.productName || 'Unknown Product'}</h5>
+                            <p class="text-muted mb-2">
+                                <strong>ID:</strong> ${batch.batchId || batch.productId}<br>
+                                <strong>Manufacturer:</strong> ${batch.manufacturerName || 'Unknown'}<br>
+                                <strong>Last Viewed:</strong> ${new Date(batch.lastViewed).toLocaleDateString()}
+                            </p>
+                        </div>
+                        <div class="text-end">
+                            <div class="badge bg-warning mb-2">${batch.viewCount || 1} Time(s)</div><br>
+                            <button class="btn btn-primary btn-sm" onclick="viewBatchDetails('${batch.batchId || batch.productId}')">
+                                <i class="fas fa-eye me-1"></i>View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function displayRecentActivity(recentScans) {
+            const recentActivity = document.getElementById('recentActivity');
+            
+            if (!recentScans || recentScans.length === 0) {
+                recentActivity.innerHTML = '<p class="text-muted">No scan activity yet</p>';
+                return;
+            }
+
+            recentActivity.innerHTML = recentScans.slice(0, 10).map(scan => `
+                <div class="scan-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <strong>${scan.supplierName}</strong> scanned 
+                            <strong>${scan.productName || scan.batchName || scan.batchId}</strong>
+                            ${scan.supplierLocation ? ` from ${scan.supplierLocation}` : ''}
+                        </div>
+                        <div class="timestamp">${new Date(scan.timestamp).toLocaleString()}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewBatchDetails(batchId) {
+            // Redirect to batch details page or show modal
+            window.open(`/verify?productId=${batchId}`, '_blank');
+        }
+
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadDashboard, 30000);
+
+        // Load dashboard on page load
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

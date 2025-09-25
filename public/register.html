@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScanChain - Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bnb-yellow: #F0B90B;
+            --bnb-dark: #1E1E1E;
+            --success-green: #198754;
+            --danger-red: #DC3545;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bnb-dark) 0%, #2c2c2c 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 50px 0;
+        }
+
+        .register-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--bnb-yellow), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            color: white;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--bnb-yellow);
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(240, 185, 11, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-label {
+            color: var(--bnb-yellow);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .btn-register {
+            background: linear-gradient(45deg, var(--bnb-yellow), #FFD700);
+            border: none;
+            color: var(--bnb-dark);
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 10px;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 185, 11, 0.4);
+            color: var(--bnb-dark);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .login-link a {
+            color: var(--bnb-yellow);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: rgba(25, 135, 84, 0.2);
+            color: var(--success-green);
+            border: 1px solid var(--success-green);
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--danger-red);
+            border: 1px solid var(--danger-red);
+        }
+
+        .password-strength {
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+
+        .strength-weak { color: var(--danger-red); }
+        .strength-medium { color: #ffc107; }
+        .strength-strong { color: var(--success-green); }
+
+        .role-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .home-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--bnb-yellow);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .home-link:hover {
+            color: white;
+        }
+
+        .loading {
+            display: none;
+        }
+
+        .spinner-border {
+            color: var(--bnb-yellow);
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-link">
+        <i class="fas fa-arrow-left me-2"></i>Back to Home
+    </a>
+
+    <div class="register-container">
+        <div class="register-card">
+            <div class="brand-header">
+                <h1 class="brand-title">
+                    <i class="fas fa-shield-alt me-2"></i>ScanChain
+                </h1>
+                <p class="text-muted">Create Your Account</p>
+            </div>
+
+            <form id="registerForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                        <input type="text" class="form-control" id="username" name="username" 
+                               placeholder="Choose a username" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fullName" class="form-label">
+                            <i class="fas fa-id-card me-2"></i>Full Name
+                        </label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" 
+                               placeholder="Your full name" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope me-2"></i>Email Address
+                    </label>
+                    <input type="email" class="form-control" id="email" name="email" 
+                           placeholder="your.email@example.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <input type="password" class="form-control" id="password" name="password" 
+                           placeholder="Create a strong password" required>
+                    <div id="passwordStrength" class="password-strength"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Confirm Password
+                    </label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" 
+                           placeholder="Confirm your password" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="role" class="form-label">
+                            <i class="fas fa-user-tag me-2"></i>Account Type
+                        </label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="">Select your role</option>
+                            <option value="manufacturer">Manufacturer</option>
+                            <option value="supplier">Supplier</option>
+                            <option value="user">General User</option>
+                        </select>
+                        <div id="roleInfo" class="role-info" style="display: none;"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="companyName" class="form-label">
+                            <i class="fas fa-building me-2"></i>Company Name
+                        </label>
+                        <input type="text" class="form-control" id="companyName" name="companyName" 
+                               placeholder="Your company (optional)">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-register" id="registerBtn">
+                    <span class="register-text">
+                        <i class="fas fa-user-plus me-2"></i>Create Account
+                    </span>
+                    <span class="loading">
+                        <span class="spinner-border spinner-border-sm me-2"></span>Creating account...
+                    </span>
+                </button>
+            </form>
+
+            <div class="login-link">
+                <span>Already have an account? </span>
+                <a href="/login">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthDiv = document.getElementById('passwordStrength');
+            
+            if (password.length === 0) {
+                strengthDiv.innerHTML = '';
+                return;
+            }
+            
+            let strength = 0;
+            let feedback = [];
+            
+            if (password.length >= 8) strength++;
+            else feedback.push('At least 8 characters');
+            
+            if (/[a-z]/.test(password)) strength++;
+            else feedback.push('lowercase letter');
+            
+            if (/[A-Z]/.test(password)) strength++;
+            else feedback.push('uppercase letter');
+            
+            if (/[0-9]/.test(password)) strength++;
+            else feedback.push('number');
+            
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            else feedback.push('special character');
+            
+            let strengthText = '';
+            let strengthClass = '';
+            
+            if (strength < 3) {
+                strengthText = 'Weak';
+                strengthClass = 'strength-weak';
+            } else if (strength < 5) {
+                strengthText = 'Medium';
+                strengthClass = 'strength-medium';
+            } else {
+                strengthText = 'Strong';
+                strengthClass = 'strength-strong';
+            }
+            
+            strengthDiv.innerHTML = `
+                <span class="${strengthClass}">
+                    <i class="fas fa-shield-alt me-1"></i>Password strength: ${strengthText}
+                </span>
+                ${feedback.length > 0 ? `<br><small>Missing: ${feedback.join(', ')}</small>` : ''}
+            `;
+        });
+
+        // Role information
+        document.getElementById('role').addEventListener('change', function() {
+            const role = this.value;
+            const roleInfo = document.getElementById('roleInfo');
+            
+            const roleDescriptions = {
+                manufacturer: 'Create and manage product batches, upload certificates, generate QR codes for supply chain tracking.',
+                supplier: 'Scan QR codes, verify product authenticity, track supply chain interactions.',
+                user: 'Basic access to verification features and product information.'
+            };
+            
+            if (role && roleDescriptions[role]) {
+                roleInfo.style.display = 'block';
+                roleInfo.innerHTML = `<i class="fas fa-info-circle me-1"></i>${roleDescriptions[role]}`;
+            } else {
+                roleInfo.style.display = 'none';
+            }
+        });
+
+        // Form validation
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Validation
+            if (!data.username || !data.email || !data.password || !data.fullName || !data.role) {
+                showAlert('danger', 'Please fill in all required fields');
+                return;
+            }
+            
+            if (data.password !== data.confirmPassword) {
+                showAlert('danger', 'Passwords do not match');
+                return;
+            }
+            
+            if (data.password.length < 6) {
+                showAlert('danger', 'Password must be at least 6 characters long');
+                return;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                showAlert('danger', 'Please enter a valid email address');
+                return;
+            }
+            
+            setLoading(true);
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('success', 'Account created successfully! Please log in.');
+                    
+                    // Clear form
+                    document.getElementById('registerForm').reset();
+                    document.getElementById('passwordStrength').innerHTML = '';
+                    document.getElementById('roleInfo').style.display = 'none';
+                    
+                    // Redirect to login after delay
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                    
+                } else {
+                    showAlert('danger', result.error);
+                }
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showAlert('danger', 'Registration failed. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function setLoading(loading) {
+            const registerBtn = document.getElementById('registerBtn');
+            const registerText = registerBtn.querySelector('.register-text');
+            const loadingText = registerBtn.querySelector('.loading');
+            
+            if (loading) {
+                registerText.style.display = 'none';
+                loadingText.style.display = 'inline';
+                registerBtn.disabled = true;
+            } else {
+                registerText.style.display = 'inline';
+                loadingText.style.display = 'none';
+                registerBtn.disabled = false;
+            }
+        }
+
+        function showAlert(type, message) {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const form = document.getElementById('registerForm');
+            form.insertBefore(alertDiv, form.firstChild);
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

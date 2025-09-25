@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #video { width: 100%; max-width: 400px; border: 2px solid #ccc; }
+        .controls { margin: 20px 0; }
+        .result { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>QR Scanner Test</h1>
+    
+    <div class="controls">
+        <button onclick="startScanner()">Start Scanner</button>
+        <button onclick="stopScanner()">Stop Scanner</button>
+    </div>
+    
+    <video id="video" autoplay playsinline></video>
+    
+    <div id="results"></div>
+    
+    <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
+    <script>
+        let video = document.getElementById('video');
+        let canvas = document.createElement('canvas');
+        let context = canvas.getContext('2d');
+        let scanning = false;
+        let stream = null;
+
+        function log(message) {
+            const div = document.createElement('div');
+            div.className = 'result';
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            document.getElementById('results').appendChild(div);
+            console.log(message);
+        }
+
+        async function startScanner() {
+            try {
+                log('Requesting camera access...');
+                
+                const constraints = {
+                    video: {
+                        facingMode: { ideal: 'environment' },
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    }
+                };
+                
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                log('Camera access granted');
+                
+                video.srcObject = stream;
+                video.play();
+                
+                video.addEventListener('loadedmetadata', () => {
+                    log(`Video dimensions: ${video.videoWidth}x${video.videoHeight}`);
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    scanning = true;
+                    scan();
+                });
+                
+            } catch (error) {
+                log(`Camera error: ${error.message}`);
+                
+                // Try with basic constraints
+                try {
+                    log('Trying with basic constraints...');
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    video.srcObject = stream;
+                    video.play();
+                    scanning = true;
+                    scan();
+                } catch (basicError) {
+                    log(`Basic camera error: ${basicError.message}`);
+                }
+            }
+        }
+
+        function stopScanner() {
+            scanning = false;
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            log('Scanner stopped');
+        }
+
+        function scan() {
+            if (!scanning || !video.videoWidth || !video.videoHeight) {
+                if (scanning) {
+                    requestAnimationFrame(scan);
+                }
+                return;
+            }
+
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            
+            try {
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                
+                if (code) {
+                    log(`QR Code detected: ${code.data}`);
+                    
+                    // Try to parse as JSON
+                    try {
+                        const parsed = JSON.parse(code.data);
+                        log(`Parsed JSON: ${JSON.stringify(parsed, null, 2)}`);
+                    } catch (parseError) {
+                        log(`Not JSON data: ${code.data}`);
+                    }
+                    
+                    // Continue scanning
+                }
+            } catch (jsqrError) {
+                log(`jsQR error: ${jsqrError.message}`);
+            }
+            
+            if (scanning) {
+                requestAnimationFrame(scan);
+            }
+        }
+
+        // Check if required APIs are available
+        log(`getUserMedia available: ${!!navigator.mediaDevices?.getUserMedia}`);
+        log(`jsQR available: ${typeof jsQR !== 'undefined'}`);
+    </script>
+</body>
+</html>

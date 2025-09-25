@@ -1,0 +1,355 @@
+{
+  "sessions": [
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T12:34:48.886301",
+      "lastActivity": "2025-07-19T12:34:48.886301"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T12:35:17.141285",
+      "lastActivity": "2025-07-19T12:35:17.141285"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T12:44:47.624703",
+      "lastActivity": "2025-07-19T12:44:47.624703"
+    },
+    {
+      "userId": 4,
+      "email": "test@example.com",
+      "loginTime": "2025-07-19T12:51:48.991094",
+      "lastActivity": "2025-07-19T12:51:48.992099"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T12:52:39.145627",
+      "lastActivity": "2025-07-19T12:52:39.145627"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T12:55:47.547495",
+      "lastActivity": "2025-07-19T12:55:47.547495"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T12:57:25.182032",
+      "lastActivity": "2025-07-19T12:57:25.182032"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T13:01:29.940174",
+      "lastActivity": "2025-07-19T13:01:29.940174"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T19:27:54.163757",
+      "lastActivity": "2025-07-19T19:27:54.163757"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T19:30:16.573212",
+      "lastActivity": "2025-07-19T19:30:16.573212"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T19:32:21.878488",
+      "lastActivity": "2025-07-19T19:32:21.878488"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T19:34:17.805307",
+      "lastActivity": "2025-07-19T19:34:17.805307"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T19:46:22.987588",
+      "lastActivity": "2025-07-19T19:46:22.987588"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-19T21:32:17.298989",
+      "lastActivity": "2025-07-19T21:32:17.298989"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T21:35:05.605847",
+      "lastActivity": "2025-07-19T21:35:05.605847"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-19T22:07:45.009347",
+      "lastActivity": "2025-07-19T22:07:45.009347"
+    },
+    {
+      "userId": 6,
+      "email": "samyak@gmail.com",
+      "loginTime": "2025-07-19T22:10:32.822795",
+      "lastActivity": "2025-07-19T22:10:32.822795"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-19T22:21:47.410183",
+      "lastActivity": "2025-07-19T22:21:47.410183"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T04:56:51.237616",
+      "lastActivity": "2025-07-20T04:56:51.237616"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-20T05:01:21.253783",
+      "lastActivity": "2025-07-20T05:01:21.253783"
+    },
+    {
+      "userId": 6,
+      "email": "samyak@gmail.com",
+      "loginTime": "2025-07-20T05:02:23.636976",
+      "lastActivity": "2025-07-20T05:02:23.636976"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-20T05:11:22.933929",
+      "lastActivity": "2025-07-20T05:11:22.933929"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T06:11:20.953095",
+      "lastActivity": "2025-07-20T06:11:20.953095"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T07:09:30.325242",
+      "lastActivity": "2025-07-20T07:09:30.325242"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-20T07:11:24.485752",
+      "lastActivity": "2025-07-20T07:11:24.485752"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T08:09:11.878116",
+      "lastActivity": "2025-07-20T08:09:11.878116"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T08:14:25.942355",
+      "lastActivity": "2025-07-20T08:14:25.942355"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-20T08:18:05.615756",
+      "lastActivity": "2025-07-20T08:18:05.615756"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T08:23:29.792878",
+      "lastActivity": "2025-07-20T08:23:29.792878"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T08:26:09.228922",
+      "lastActivity": "2025-07-20T08:26:09.228922"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-20T08:28:56.210110",
+      "lastActivity": "2025-07-20T08:28:56.210110"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-07-20T08:36:36.811284",
+      "lastActivity": "2025-07-20T08:36:36.811284"
+    },
+    {
+      "userId": 5,
+      "email": "official7997@gmail.com",
+      "loginTime": "2025-07-20T08:38:59.790305",
+      "lastActivity": "2025-07-20T08:38:59.790305"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-01T05:43:02.147021",
+      "lastActivity": "2025-08-01T05:43:02.147021"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-01T06:02:27.207433",
+      "lastActivity": "2025-08-01T06:02:27.207433"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-01T06:06:44.555865",
+      "lastActivity": "2025-08-01T06:06:44.555865"
+    },
+    {
+      "userId": 6,
+      "email": "samyak@gmail.com",
+      "loginTime": "2025-08-01T06:17:41.059314",
+      "lastActivity": "2025-08-01T06:17:41.059314"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-01T06:19:33.816339",
+      "lastActivity": "2025-08-01T06:19:33.816339"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-04T04:25:59.436177",
+      "lastActivity": "2025-08-04T04:25:59.436177"
+    },
+    {
+      "userId": 6,
+      "email": "samyak@gmail.com",
+      "loginTime": "2025-08-04T04:32:38.665994",
+      "lastActivity": "2025-08-04T04:32:38.665994"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-04T04:33:44.924140",
+      "lastActivity": "2025-08-04T04:33:44.924140"
+    },
+    {
+      "userId": 6,
+      "email": "samyak@gmail.com",
+      "loginTime": "2025-08-04T04:36:04.013631",
+      "lastActivity": "2025-08-04T04:36:04.013631"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-04T06:25:02.331490",
+      "lastActivity": "2025-08-04T06:25:02.331490"
+    },
+    {
+      "userId": 6,
+      "email": "samyak@gmail.com",
+      "loginTime": "2025-08-04T06:31:27.308012",
+      "lastActivity": "2025-08-04T06:31:27.308012"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-04T06:35:06.214305",
+      "lastActivity": "2025-08-04T06:35:06.214305"
+    },
+    {
+      "userId": 3,
+      "email": "ashutoshaianule@gmail.com",
+      "loginTime": "2025-08-05T13:30:41.522185",
+      "lastActivity": "2025-08-05T13:30:41.522185"
+    },
+    {
+      "userId": 1,
+      "email": "manufacturer@techcorp.com",
+      "loginTime": "2025-08-07T14:05:08.858804",
+      "lastActivity": "2025-08-07T14:05:08.858804"
+    },
+    {
+      "id": 1,
+      "userId": 1,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoibWFudWZhY3R1cmVyQHRlY2hjb3JwLmNvbSIsInJvbGUiOiJtYW51ZmFjdHVyZXIiLCJpYXQiOjE3NTg3ODU2NTMsImV4cCI6MTc1ODg3MjA1M30.K9m37BEaU1VgJFoux0NNsOxOz89FVWmy92laJLBAlOc",
+      "createdAt": "2025-09-25T07:34:13.169Z",
+      "expiresAt": "2025-09-26T07:34:13.169Z",
+      "active": true
+    },
+    {
+      "userId": 1,
+      "email": "manufacturer@techcorp.com",
+      "loginTime": "2025-09-25T13:15:33.876538",
+      "lastActivity": "2025-09-25T13:15:33.876550"
+    },
+    {
+      "userId": 7,
+      "email": "techmanofficial123@gmail.com",
+      "loginTime": "2025-09-25T19:40:13.187155",
+      "lastActivity": "2025-09-25T19:40:13.187162"
+    },
+    {
+      "userId": 7,
+      "email": "techmanofficial123@gmail.com",
+      "loginTime": "2025-09-25T19:51:13.765892",
+      "lastActivity": "2025-09-25T19:51:13.765896"
+    },
+    {
+      "userId": 1,
+      "email": "manufacturer@techcorp.com",
+      "loginTime": "2025-09-25T19:55:25.983175",
+      "lastActivity": "2025-09-25T19:55:25.983179"
+    },
+    {
+      "userId": 1,
+      "email": "manufacturer@techcorp.com",
+      "loginTime": "2025-09-25T19:56:13.251548",
+      "lastActivity": "2025-09-25T19:56:13.251552"
+    },
+    {
+      "userId": 2,
+      "email": "supplier@logistics.com",
+      "loginTime": "2025-09-25T20:33:04.300368",
+      "lastActivity": "2025-09-25T20:33:04.300373"
+    },
+    {
+      "userId": 1,
+      "email": "manufacturer@techcorp.com",
+      "loginTime": "2025-09-25T20:33:32.315571",
+      "lastActivity": "2025-09-25T20:33:32.315576"
+    },
+    {
+      "userId": 2,
+      "email": "supplier@logistics.com",
+      "loginTime": "2025-09-25T22:37:38.913411",
+      "lastActivity": "2025-09-25T22:37:38.913415"
+    },
+    {
+      "userId": 1,
+      "email": "manufacturer@techcorp.com",
+      "loginTime": "2025-09-25T22:39:43.694343",
+      "lastActivity": "2025-09-25T22:39:43.694349"
+    },
+    {
+      "userId": 2,
+      "email": "supplier@logistics.com",
+      "loginTime": "2025-09-25T22:40:26.641092",
+      "lastActivity": "2025-09-25T22:40:26.641097"
+    }
+  ],
+  "lastSessionId": 1
+}

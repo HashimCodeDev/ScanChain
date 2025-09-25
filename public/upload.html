@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Upload Product - ScanChain</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				--bnb-yellow: #f0b90b;
+				--bnb-dark: #1e1e1e;
+				--success-green: #198754;
+				--danger-red: #dc3545;
+			}
+
+			body {
+				background: linear-gradient(135deg, var(--bnb-dark) 0%, #2c2c2c 100%);
+				color: white;
+				min-height: 100vh;
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+			}
+
+			.navbar {
+				background: rgba(30, 30, 30, 0.95) !important;
+				backdrop-filter: blur(10px);
+				border-bottom: 2px solid var(--bnb-yellow);
+			}
+
+			.navbar-brand {
+				color: var(--bnb-yellow) !important;
+				font-weight: bold;
+				font-size: 1.5rem;
+			}
+
+			.upload-container {
+				max-width: 800px;
+				margin: 120px auto 50px;
+				padding: 0 20px;
+			}
+
+			.upload-card {
+				background: rgba(255, 255, 255, 0.1);
+				backdrop-filter: blur(10px);
+				border: 1px solid rgba(240, 185, 11, 0.3);
+				border-radius: 20px;
+				padding: 3rem;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+			}
+
+			.upload-header {
+				text-align: center;
+				margin-bottom: 2rem;
+			}
+
+			.upload-title {
+				font-size: 2.5rem;
+				font-weight: bold;
+				background: linear-gradient(45deg, var(--bnb-yellow), #fff);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				margin-bottom: 1rem;
+			}
+
+			.file-drop-area {
+				border: 3px dashed rgba(240, 185, 11, 0.5);
+				border-radius: 15px;
+				padding: 3rem 2rem;
+				text-align: center;
+				transition: all 0.3s ease;
+				cursor: pointer;
+				background: rgba(240, 185, 11, 0.05);
+				position: relative;
+			}
+
+			.file-drop-area:hover {
+				border-color: var(--bnb-yellow);
+				background: rgba(240, 185, 11, 0.1);
+			}
+
+			.file-drop-area.dragover {
+				border-color: var(--bnb-yellow);
+				background: rgba(240, 185, 11, 0.15);
+				transform: scale(1.02);
+			}
+
+			.file-input-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+				cursor: pointer;
+				z-index: 1;
+			}
+
+			.drop-icon {
+				font-size: 4rem;
+				color: var(--bnb-yellow);
+				margin-bottom: 1rem;
+			}
+
+			.btn-primary {
+				background: linear-gradient(45deg, var(--bnb-yellow), #ffd700);
+				border: none;
+				color: var(--bnb-dark);
+				font-weight: bold;
+				padding: 12px 30px;
+				border-radius: 25px;
+				transition: all 0.3s ease;
+			}
+
+			.btn-primary:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 5px 15px rgba(240, 185, 11, 0.4);
+				background: linear-gradient(45deg, #ffd700, var(--bnb-yellow));
+				color: var(--bnb-dark);
+			}
+
+			.btn-outline-light {
+				border: 2px solid var(--bnb-yellow);
+				color: var(--bnb-yellow);
+				padding: 12px 30px;
+				border-radius: 25px;
+			}
+
+			.form-control,
+			.form-select {
+				background: rgba(255, 255, 255, 0.1);
+				border: 1px solid rgba(240, 185, 11, 0.3);
+				color: white;
+				border-radius: 10px;
+				padding: 12px 15px;
+			}
+
+			.form-control:focus,
+			.form-select:focus {
+				background: rgba(255, 255, 255, 0.15);
+				border-color: var(--bnb-yellow);
+				color: white;
+				box-shadow: 0 0 0 0.2rem rgba(240, 185, 11, 0.25);
+			}
+
+			.form-control::placeholder {
+				color: #cccccc;
+			}
+
+			select.form-select option {
+				color: black;
+			}
+
+			.form-label {
+				color: var(--bnb-yellow);
+				font-weight: 600;
+				margin-bottom: 8px;
+			}
+
+			.progress {
+				height: 8px;
+				background: rgba(255, 255, 255, 0.1);
+				border-radius: 10px;
+			}
+
+			.progress-bar {
+				background: linear-gradient(45deg, var(--bnb-yellow), #ffd700);
+				border-radius: 10px;
+			}
+
+			.result-card {
+				background: rgba(25, 135, 84, 0.1);
+				border: 1px solid var(--success-green);
+				border-radius: 15px;
+				padding: 2rem;
+				margin-top: 2rem;
+			}
+
+			.qr-code-container {
+				text-align: center;
+				padding: 2rem;
+				background: white;
+				border-radius: 15px;
+				margin: 1rem 0;
+			}
+
+			.alert {
+				border-radius: 10px;
+				border: none;
+			}
+
+			.alert-success {
+				background: rgba(25, 135, 84, 0.2);
+				color: var(--success-green);
+				border: 1px solid var(--success-green);
+			}
+
+			.alert-danger {
+				background: rgba(220, 53, 69, 0.2);
+				color: var(--danger-red);
+				border: 1px solid var(--danger-red);
+			}
+
+			.spinner-border {
+				color: var(--bnb-yellow);
+			}
+
+			.file-info {
+				background: rgba(255, 255, 255, 0.05);
+				border-radius: 10px;
+				padding: 1rem;
+				margin: 1rem 0;
+			}
+
+			.copy-button {
+				background: none;
+				border: 1px solid var(--bnb-yellow);
+				color: var(--bnb-yellow);
+				padding: 5px 10px;
+				border-radius: 5px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			.copy-button:hover {
+				background: var(--bnb-yellow);
+				color: var(--bnb-dark);
+			}
+
+			@media (max-width: 768px) {
+				.upload-card {
+					padding: 2rem 1.5rem;
+				}
+
+				.upload-title {
+					font-size: 2rem;
+				}
+
+				.file-drop-area {
+					padding: 2rem 1rem;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- Navigation -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="/">
+					<i class="fas fa-shield-alt me-2"></i>ScanChain
+				</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNav"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" href="/upload">Upload</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/verify">Verify</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Upload Section -->
+		<div class="upload-container">
+			<div class="upload-card">
+				<div class="upload-header">
+					<h1 class="upload-title">Create Batch</h1>
+					<p class="text-muted">
+						Create a new product batch with blockchain verification
+					</p>
+				</div>
+
+				<form id="uploadForm">
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="manufacturerName" class="form-label">
+								<i class="fas fa-industry me-2"></i>Manufacturer Name
+							</label>
+							<input
+								type="text"
+								class="form-control"
+								id="manufacturerName"
+								name="manufacturerName"
+								placeholder="Enter manufacturer name"
+								required
+							/>
+							<small class="text-muted">Your company/organization name</small>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="productId" class="form-label">
+								<i class="fas fa-barcode me-2"></i>Batch ID
+							</label>
+							<input
+								type="text"
+								class="form-control"
+								id="productId"
+								name="productId"
+								placeholder="Enter unique batch identifier"
+								required
+							/>
+							<small class="text-muted"
+								>Unique identifier for this batch (e.g., BATCH-2025-001)</small
+							>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="batchName" class="form-label">
+								<i class="fas fa-tag me-2"></i>Batch Name
+							</label>
+							<input
+								type="text"
+								class="form-control"
+								id="batchName"
+								name="batchName"
+								placeholder="Human-readable batch name"
+							/>
+							<small class="text-muted">Display name for this batch</small>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="productType" class="form-label">
+								<i class="fas fa-cube me-2"></i>Product Type
+							</label>
+							<select class="form-select" id="productType" name="productType">
+								<option value="">Select product type</option>
+								<option value="Electronics">Electronics</option>
+								<option value="Pharmaceuticals">Pharmaceuticals</option>
+								<option value="Food & Beverage">Food & Beverage</option>
+								<option value="Automotive">Automotive</option>
+								<option value="Textiles">Textiles</option>
+								<option value="Other">Other</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="description" class="form-label">
+							<i class="fas fa-file-text me-2"></i>Description
+						</label>
+						<textarea
+							class="form-control"
+							id="description"
+							name="description"
+							rows="3"
+							placeholder="Brief description of the batch/product"
+						></textarea>
+					</div>
+
+					<div class="mb-4">
+						<label class="form-label">
+							<i class="fas fa-upload me-2"></i>Certificate/Document
+						</label>
+
+						<!-- Primary file drop area -->
+						<div class="file-drop-area" id="fileDropArea">
+							<input
+								type="file"
+								id="fileInput"
+								name="file"
+								accept=".pdf,.json,application/pdf,application/json"
+								class="file-input-overlay"
+								required
+							/>
+							<div class="drop-icon">
+								<i class="fas fa-cloud-upload-alt"></i>
+							</div>
+							<h4>Drop your certificate here or click to browse</h4>
+							<p class="text-muted mb-3">
+								Upload batch certificate, quality documents, or compliance
+								papers<br />
+								Supports PDF and JSON files up to 10MB
+							</p>
+							<button
+								type="button"
+								class="btn btn-outline-light"
+								onclick="triggerFileInput()"
+								id="browseBtn"
+							>
+								<i class="fas fa-folder-open me-2"></i>Browse Files
+							</button>
+						</div>
+					</div>
+
+					<div id="fileInfo" class="file-info" style="display: none">
+						<h6><i class="fas fa-file me-2"></i>Selected File</h6>
+						<div id="fileDetails"></div>
+					</div>
+
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+						<button
+							type="button"
+							class="btn btn-outline-light"
+							onclick="resetForm()"
+						>
+							<i class="fas fa-redo me-2"></i>Reset
+						</button>
+						<button type="submit" class="btn btn-primary" id="uploadBtn">
+							<i class="fas fa-shield-alt me-2"></i>Create Batch & Generate QR
+						</button>
+					</div>
+				</form>
+
+				<!-- Progress -->
+				<div id="uploadProgress" style="display: none">
+					<div class="mt-4">
+						<div class="d-flex justify-content-between mb-2">
+							<span>Upload Progress</span>
+							<span id="progressText">0%</span>
+						</div>
+						<div class="progress">
+							<div
+								class="progress-bar"
+								id="progressBar"
+								style="width: 0%"
+							></div>
+						</div>
+						<div class="mt-3">
+							<div id="uploadSteps">
+								<div class="step" id="step1">
+									<i class="fas fa-spinner fa-spin me-2"></i>Generating file
+									hash...
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Results -->
+				<div id="uploadResult" style="display: none"></div>
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+			// Check authentication on page load
+			window.addEventListener("load", async () => {
+				const token = localStorage.getItem("authToken");
+				if (!token) {
+					// No token, redirect to login
+					window.location.href = "/login";
+					return;
+				}
+
+				try {
+					// Verify token is still valid
+					const response = await fetch("/api/auth/verify", {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					});
+
+					const result = await response.json();
+					if (!result.success) {
+						// Invalid token, clear storage and redirect
+						localStorage.removeItem("authToken");
+						localStorage.removeItem("userData");
+						window.location.href = "/login";
+						return;
+					}
+
+					// Display user info
+					displayUserInfo(result.user);
+				} catch (error) {
+					console.error("Auth verification failed:", error);
+					localStorage.removeItem("authToken");
+					localStorage.removeItem("userData");
+					window.location.href = "/login";
+				}
+			});
+
+			function displayUserInfo(user) {
+				// Add user info to the navigation or page header
+				const navbar = document.querySelector(".navbar-nav");
+				if (navbar && user) {
+					const userInfo = document.createElement("li");
+					userInfo.className = "nav-item dropdown";
+					userInfo.innerHTML = `
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i>${user.fullName}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><span class="dropdown-item-text"><small>Role: ${user.role}</small></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/dashboard"><i class="fas fa-chart-bar me-2"></i>Dashboard</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                `;
+					navbar.appendChild(userInfo);
+				}
+			}
+
+			async function logout() {
+				const token = localStorage.getItem("authToken");
+				if (token) {
+					try {
+						await fetch("/api/auth/logout", {
+							method: "POST",
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						});
+					} catch (error) {
+						console.error("Logout error:", error);
+					}
+				}
+
+				localStorage.removeItem("authToken");
+				localStorage.removeItem("userData");
+				window.location.href = "/login";
+			}
+			const fileDropArea = document.getElementById("fileDropArea");
+			const fileInput = document.getElementById("fileInput");
+			const fileInfo = document.getElementById("fileInfo");
+			const fileDetails = document.getElementById("fileDetails");
+			const uploadForm = document.getElementById("uploadForm");
+			const uploadProgress = document.getElementById("uploadProgress");
+			const uploadResult = document.getElementById("uploadResult");
+			const uploadBtn = document.getElementById("uploadBtn");
+
+			// File drop functionality
+			fileDropArea.addEventListener("dragover", (e) => {
+				e.preventDefault();
+				fileDropArea.classList.add("dragover");
+			});
+
+			fileDropArea.addEventListener("dragleave", () => {
+				fileDropArea.classList.remove("dragover");
+			});
+
+			fileDropArea.addEventListener("drop", (e) => {
+				e.preventDefault();
+				fileDropArea.classList.remove("dragover");
+				const files = e.dataTransfer.files;
+				if (files.length > 0) {
+					handleFileSelect(files[0]);
+				}
+			});
+
+			fileDropArea.addEventListener("click", (e) => {
+				// Only trigger file input if clicking on the drop area itself, not on the button
+				if (
+					e.target === fileDropArea ||
+					e.target.closest(".drop-icon") ||
+					e.target.tagName === "H4" ||
+					e.target.tagName === "P"
+				) {
+					fileInput.click();
+				}
+			});
+
+			// Function to trigger file input
+			function triggerFileInput() {
+				console.log("Triggering file input...");
+				const fileInput = document.getElementById("fileInput");
+				console.log("File input element:", fileInput);
+				try {
+					fileInput.click();
+					console.log("File input clicked successfully");
+				} catch (error) {
+					console.error("Error clicking file input:", error);
+					alternativeFileInput();
+				}
+			}
+
+			// Alternative file input trigger for browsers with restrictions
+			function alternativeFileInput() {
+				console.log("Using alternative file input method...");
+				const input = document.createElement("input");
+				input.type = "file";
+				input.accept = ".pdf,.json,application/pdf,application/json";
+				input.onchange = function (e) {
+					console.log("Alternative file selected:", e.target.files[0]);
+					if (e.target.files.length > 0) {
+						// Copy the selected file to the main file input
+						const dt = new DataTransfer();
+						dt.items.add(e.target.files[0]);
+						document.getElementById("fileInput").files = dt.files;
+						handleFileSelect(e.target.files[0]);
+					}
+				};
+				input.click();
+			}
+
+			// Handle backup file input
+			function handleBackupFileSelect(input) {
+				console.log("Backup file input used:", input.files[0]);
+				if (input.files.length > 0) {
+					// Copy the selected file to the main file input
+					const dt = new DataTransfer();
+					dt.items.add(input.files[0]);
+					document.getElementById("fileInput").files = dt.files;
+					handleFileSelect(input.files[0]);
+				}
+			}
+
+			fileInput.addEventListener("change", (e) => {
+				const browseBtn = document.getElementById("browseBtn");
+				console.log(browseBtn);
+				if (e.target.files.length > 0) {
+					const file = e.target.files[0];
+					// Update the button's HTML with a file icon and the file name
+					browseBtn.innerHTML = `<i class="fas fa-file-alt me-2"></i> ${file.name}`;
+					handleFileSelect(file);
+				}
+			});
+
+			function handleFileSelect(file) {
+				// Validate file type
+				const allowedTypes = ["application/pdf", "application/json"];
+				const isValidType =
+					allowedTypes.includes(file.type) || file.name.endsWith(".json");
+
+				if (!isValidType) {
+					showAlert("danger", "Please select a PDF or JSON file.");
+					return;
+				}
+
+				// Validate file size (10MB limit)
+				if (file.size > 10 * 1024 * 1024) {
+					showAlert("danger", "File size must be less than 10MB.");
+					return;
+				}
+
+				// Update file input
+				const dt = new DataTransfer();
+				dt.items.add(file);
+				fileInput.files = dt.files;
+
+				// Show file info
+				const fileSize = (file.size / 1024 / 1024).toFixed(2);
+				fileDetails.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>${file.name}</strong><br>
+                        <small class="text-muted">${
+													file.type || "application/json"
+												} • ${fileSize} MB</small>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearFile()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+				fileInfo.style.display = "block";
+				// Update the button's HTML with a file icon and the file name
+
+				const browseBtn = document.getElementById("browseBtn");
+				if (browseBtn) {
+					browseBtn.innerHTML = `<i class="fas fa-file-alt me-2"></i> ${file.name}`;
+				}
+			}
+
+			function clearFile() {
+				const browseBtn = document.getElementById("browseBtn");
+				fileInput.value = "";
+				fileInfo.style.display = "none";
+				// Reset the button's HTML to its original state
+				browseBtn.innerHTML = `<i class="fas fa-folder-open me-2"></i>Browse Files`;
+			}
+
+			function resetForm() {
+				uploadForm.reset();
+				clearFile();
+				uploadProgress.style.display = "none";
+				uploadResult.style.display = "none";
+				uploadBtn.disabled = false;
+			}
+
+			function showAlert(type, message) {
+				const alertDiv = document.createElement("div");
+				alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+				alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+				uploadForm.insertBefore(alertDiv, uploadForm.firstChild);
+
+				setTimeout(() => {
+					alertDiv.remove();
+				}, 5000);
+			}
+
+			function updateProgress(percent, step) {
+				document.getElementById("progressBar").style.width = percent + "%";
+				document.getElementById("progressText").textContent = percent + "%";
+
+				const steps = {
+					1: "Generating file hash...",
+					2: "Uploading to BNB Greenfield...",
+					3: "Storing hash on BSC...",
+					4: "Generating QR code...",
+					5: "Complete!",
+				};
+
+				if (step && steps[step]) {
+					document.getElementById("uploadSteps").innerHTML = `
+                    <div class="step">
+                        <i class="fas fa-${
+													step === 5 ? "check" : "spinner fa-spin"
+												} me-2"></i>${steps[step]}
+                    </div>
+                `;
+				}
+			}
+
+			function copyToClipboard(text) {
+				navigator.clipboard.writeText(text).then(() => {
+					showAlert("success", "Copied to clipboard!");
+				});
+			}
+
+			// Form submission
+			uploadForm.addEventListener("submit", async (e) => {
+				e.preventDefault();
+
+				const formData = new FormData(uploadForm);
+
+				// Validate required fields
+				if (
+					!formData.get("manufacturerName") ||
+					!formData.get("productId") ||
+					!formData.get("file")
+				) {
+					showAlert(
+						"danger",
+						"Please fill in Manufacturer Name, Batch ID and select a certificate file."
+					);
+					return;
+				}
+
+				uploadBtn.disabled = true;
+				uploadProgress.style.display = "block";
+				uploadResult.style.display = "none";
+
+				try {
+					updateProgress(20, 1);
+
+					// Get auth token
+					const token = localStorage.getItem("authToken");
+					if (!token) {
+						throw new Error("Please log in to upload files");
+					}
+
+					const response = await fetch("/api/upload", {
+						method: "POST",
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+						body: formData,
+					});
+
+					updateProgress(60, 2);
+
+					const result = await response.json();
+
+					updateProgress(80, 3);
+
+					if (result.success) {
+						updateProgress(100, 5);
+
+						uploadResult.innerHTML = `
+                        <div class="result-card">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="text-success">
+                                        <i class="fas fa-check-circle me-2"></i>Batch Created Successfully!
+                                    </h4>
+                                    
+                                    <div class="mt-3">
+                                        <strong>Batch Details:</strong><br>
+                                        <small class="text-muted">Manufacturer:</small> ${
+																					result.manufacturerName
+																				}<br>
+                                        <small class="text-muted">Batch ID:</small> ${
+																					result.batchId
+																				}<br>
+                                        <small class="text-muted">Batch Name:</small> ${
+																					result.batchName
+																				}<br>
+                                        <small class="text-muted">Hash:</small> 
+                                        <code style="font-size: 0.8rem;">${
+																					result.fileHash
+																				}</code>
+                                        <button class="copy-button ms-2" onclick="copyToClipboard('${
+																					result.fileHash
+																				}')">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <strong>Blockchain Details:</strong><br>
+                                        <small class="text-muted">Contract:</small> 
+                                        <code style="font-size: 0.8rem;">${
+																					result.contractAddress
+																				}</code><br>
+                                        <small class="text-muted">Transaction:</small> 
+                                        <code style="font-size: 0.8rem;">${
+																					result.txHash
+																				}</code>
+                                        <button class="copy-button ms-2" onclick="copyToClipboard('${
+																					result.txHash
+																				}')">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <a href="/dashboard?manufacturer=${encodeURIComponent(
+																					result.manufacturerName
+																				)}" class="btn btn-outline-light me-2">
+                                            <i class="fas fa-tachometer-alt me-2"></i>View Dashboard
+                                        </a>
+                                        <button class="btn btn-primary" onclick="downloadQR('${
+																					result.batchId
+																				}')">
+                                            <i class="fas fa-download me-2"></i>Download QR
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h5>QR Code for Supply Chain</h5>
+                                    <div class="qr-code-container">
+                                        <img src="${
+																					result.qrCode
+																				}" alt="QR Code" style="max-width: 200px;">
+                                        <p class="text-dark mt-2 mb-0"><small>Share this QR code with your supply chain partners</small></p>
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Next Steps:</strong><br>
+                                            • Share this QR code with suppliers<br>
+                                            • Track scans in your dashboard<br>
+                                            • Monitor supply chain activity
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+						uploadResult.style.display = "block";
+					} else {
+						throw new Error(result.error || "Upload failed");
+					}
+				} catch (error) {
+					console.error("Upload error:", error);
+					showAlert("danger", `Upload failed: ${error.message}`);
+					uploadProgress.style.display = "none";
+				} finally {
+					uploadBtn.disabled = false;
+				}
+			});
+
+			function downloadQR(productId) {
+				const qrImg = document.querySelector(".qr-code-container img");
+				if (qrImg) {
+					const link = document.createElement("a");
+					link.href = qrImg.src;
+					link.download = `scanchain-qr-${productId}.png`;
+					link.click();
+				}
+			}
+		</script>
+	</body>
+</html>

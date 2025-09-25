@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCellar Bucket Upload Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .upload-form {
+            border: 2px dashed #ddd;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .file-input {
+            margin: 20px 0;
+        }
+        .upload-btn {
+            background: #f0b90b;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .upload-btn:hover {
+            background: #d4a00a;
+        }
+        .upload-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗂️ DCellar Bucket Upload Test</h1>
+        <p>Test file uploads to BNB Greenfield DCellar bucket on testnet.</p>
+        
+        <div class="upload-form">
+            <h3>Select File to Upload</h3>
+            <div class="file-input">
+                <input type="file" id="fileInput" accept="*/*">
+            </div>
+            <button class="upload-btn" id="uploadBtn" onclick="uploadFile()">
+                Upload to DCellar
+            </button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const resultDiv = document.getElementById('result');
+            
+            if (!fileInput.files[0]) {
+                showResult('Please select a file first.', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            
+            // Show loading state
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Uploading...';
+            showResult('Uploading file to DCellar bucket...', 'loading');
+            
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showResult(`
+                        <h4>✅ Upload Successful!</h4>
+                        <p><strong>Filename:</strong> ${result.filename}</p>
+                        <p><strong>Greenfield URL:</strong> <code>${result.greenfieldUrl}</code></p>
+                        <p><strong>File Size:</strong> ${result.fileSize} bytes</p>
+                        <p><strong>Content Type:</strong> ${result.contentType}</p>
+                    `, 'success');
+                } else {
+                    showResult(`❌ Upload failed: ${result.error}`, 'error');
+                }
+                
+            } catch (error) {
+                showResult(`❌ Upload error: ${error.message}`, 'error');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'Upload to DCellar';
+            }
+        }
+        
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = message;
+            resultDiv.className = `result ${type}`;
+        }
+        
+        // File input change handler
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                console.log('Selected file:', file.name, file.size, 'bytes');
+            }
+        });
+    </script>
+</body>
+</html>

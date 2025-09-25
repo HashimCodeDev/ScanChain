@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScanChain - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bnb-yellow: #F0B90B;
+            --bnb-dark: #1E1E1E;
+            --success-green: #198754;
+            --danger-red: #DC3545;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bnb-dark) 0%, #2c2c2c 100%);
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--bnb-yellow), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+            color: white;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--bnb-yellow);
+            color: white;
+            box-shadow: 0 0 0 0.2rem rgba(240, 185, 11, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-label {
+            color: var(--bnb-yellow);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, var(--bnb-yellow), #FFD700);
+            border: none;
+            color: var(--bnb-dark);
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 10px;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 185, 11, 0.4);
+            color: var(--bnb-dark);
+        }
+
+        .btn-demo {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-demo:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider span {
+            background: var(--bnb-dark);
+            padding: 0 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .register-link a {
+            color: var(--bnb-yellow);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: rgba(25, 135, 84, 0.2);
+            color: var(--success-green);
+            border: 1px solid var(--success-green);
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--danger-red);
+            border: 1px solid var(--danger-red);
+        }
+
+        .loading {
+            display: none;
+        }
+
+        .spinner-border {
+            color: var(--bnb-yellow);
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="brand-header">
+                <h1 class="brand-title">
+                    <i class="fas fa-shield-alt me-2"></i>ScanChain
+                </h1>
+                <p class="brand-subtitle">Secure Supply Chain Authentication</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope me-2"></i>Email Address
+                    </label>
+                    <input type="email" class="form-control" id="email" name="email" 
+                           placeholder="Enter your email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <div class="password-toggle">
+                        <input type="password" class="form-control" id="password" name="password" 
+                               placeholder="Enter your password" required>
+                        <i class="fas fa-eye" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-login" id="loginBtn">
+                    <span class="login-text">
+                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                    </span>
+                    <span class="loading">
+                        <span class="spinner-border spinner-border-sm me-2"></span>Signing in...
+                    </span>
+                </button>
+            </form>
+
+            <!-- Demo Logins -->
+            <div class="divider">
+                <span>Quick Demo Access</span>
+            </div>
+
+            <button class="btn btn-demo" onclick="demoLogin('manufacturer')">
+                <i class="fas fa-industry me-2"></i>Demo Manufacturer Login
+            </button>
+            <button class="btn btn-demo" onclick="demoLogin('supplier')">
+                <i class="fas fa-truck me-2"></i>Demo Supplier Login
+            </button>
+
+            <!-- Register Link -->
+            <div class="register-link">
+                <span>Don't have an account? </span>
+                <a href="/register">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Password toggle
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                showAlert('danger', 'Please enter both email and password');
+                return;
+            }
+
+            setLoading(true);
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Store token and user data
+                    localStorage.setItem('authToken', result.token);
+                    localStorage.setItem('userData', JSON.stringify(result.user));
+                    
+                    showAlert('success', `Welcome back, ${result.user.fullName}!`);
+                    
+                    // Redirect to home page after successful login
+                    setTimeout(() => {
+                        window.location.href = '/home';
+                    }, 1500);
+                    
+                } else {
+                    showAlert('danger', result.error);
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showAlert('danger', 'Login failed. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        // Demo login function
+        async function demoLogin(type) {
+            setLoading(true);
+            
+            try {
+                const response = await fetch(`/api/auth/demo/${type}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    localStorage.setItem('authToken', result.token);
+                    localStorage.setItem('userData', JSON.stringify(result.user));
+                    
+                    showAlert('success', `Demo ${type} login successful!`);
+                    
+                    setTimeout(() => {
+                        window.location.href = '/home';
+                    }, 1500);
+                    
+                } else {
+                    showAlert('danger', result.error);
+                }
+                
+            } catch (error) {
+                console.error('Demo login error:', error);
+                showAlert('danger', 'Demo login failed');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function setLoading(loading) {
+            const loginBtn = document.getElementById('loginBtn');
+            const loginText = loginBtn.querySelector('.login-text');
+            const loadingText = loginBtn.querySelector('.loading');
+            
+            if (loading) {
+                loginText.style.display = 'none';
+                loadingText.style.display = 'inline';
+                loginBtn.disabled = true;
+            } else {
+                loginText.style.display = 'inline';
+                loadingText.style.display = 'none';
+                loginBtn.disabled = false;
+            }
+        }
+
+        function showAlert(type, message) {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const form = document.getElementById('loginForm');
+            form.insertBefore(alertDiv, form.firstChild);
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Check if already logged in
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                // Verify token is still valid
+                fetch('/api/auth/verify', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // Already logged in, redirect
+                        window.location.href = '/home';
+                    }
+                })
+                .catch(() => {
+                    // Token invalid, clear storage
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userData');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
