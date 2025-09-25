@@ -9,16 +9,30 @@
     <style>
         :root {
             --bnb-yellow: #F0B90B;
+            --bnb-gold: #FFD700;
             --bnb-dark: #1E1E1E;
-            --success-green: #198754;
-            --danger-red: #DC3545;
+            --bnb-darker: #0F0F0F;
+            --success-green: #10B981;
+            --danger-red: #EF4444;
+            --info-blue: #3B82F6;
+            --warning-orange: #F59E0B;
+            --text-primary: #FFFFFF;
+            --text-secondary: #D1D5DB;
+            --text-muted: #9CA3AF;
+            --text-accent: #FCD34D;
+            --surface-primary: rgba(255, 255, 255, 0.1);
+            --surface-secondary: rgba(255, 255, 255, 0.05);
+            --border-primary: rgba(240, 185, 11, 0.3);
+            --border-secondary: rgba(255, 255, 255, 0.2);
         }
 
         body {
-            background: linear-gradient(135deg, var(--bnb-dark) 0%, #2c2c2c 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--bnb-darker) 0%, var(--bnb-dark) 50%, #2c2c2c 100%);
+            color: var(--text-primary);
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            letter-spacing: -0.01em;
         }
 
         .navbar {
@@ -39,71 +53,185 @@
         }
 
         .dashboard-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(240, 185, 11, 0.3);
-            border-radius: 15px;
+            background: var(--surface-primary);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
             padding: 2rem;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(240, 185, 11, 0.15);
+            border-color: var(--bnb-yellow);
         }
 
         .stat-card {
-            background: linear-gradient(45deg, rgba(240, 185, 11, 0.2), rgba(255, 215, 0, 0.1));
-            border: 1px solid var(--bnb-yellow);
-            border-radius: 15px;
-            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(240, 185, 11, 0.15), rgba(255, 215, 0, 0.08));
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--bnb-yellow), var(--bnb-gold));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(240, 185, 11, 0.25);
+        }
+        
+        .stat-card:hover::before {
+            opacity: 0.1;
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
+            font-size: 3rem;
+            font-weight: 800;
             color: var(--bnb-yellow);
+            text-shadow: 0 2px 8px rgba(240, 185, 11, 0.3);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .batch-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            transition: all 0.3s ease;
+            background: var(--surface-secondary);
+            border: 1px solid var(--border-secondary);
+            border-radius: 16px;
+            padding: 1.75rem;
+            margin: 1.25rem 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .batch-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, var(--bnb-yellow), var(--bnb-gold));
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
         }
 
         .batch-card:hover {
             border-color: var(--bnb-yellow);
-            background: rgba(240, 185, 11, 0.1);
+            background: rgba(240, 185, 11, 0.08);
+            transform: translateX(4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .batch-card:hover::before {
+            transform: scaleY(1);
         }
 
         .scan-item {
-            background: rgba(25, 135, 84, 0.1);
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid var(--success-green);
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            border-radius: 0 12px 12px 0;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .scan-item:hover {
+            background: rgba(16, 185, 129, 0.12);
+            transform: translateX(2px);
+        }
+        
+        .scan-item-small {
+            background: rgba(16, 185, 129, 0.05);
             border-left: 3px solid var(--success-green);
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            border-radius: 5px;
+            padding: 0.5rem 0.75rem;
+            margin: 0.25rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, var(--bnb-yellow), #FFD700);
+            background: linear-gradient(135deg, var(--bnb-yellow), var(--bnb-gold));
             border: none;
             color: var(--bnb-dark);
-            font-weight: bold;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 185, 11, 0.4);
+            color: var(--bnb-dark);
+        }
+        
+        .btn-outline-warning {
+            background: transparent;
+            border: 2px solid var(--bnb-yellow);
+            color: var(--bnb-yellow);
+            font-weight: 500;
             padding: 8px 16px;
             border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-warning:hover {
+            background: var(--bnb-yellow);
+            color: var(--bnb-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.3);
         }
 
         .dashboard-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, var(--bnb-yellow), #fff);
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--bnb-yellow) 0%, var(--bnb-gold) 50%, var(--text-primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .dashboard-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 3rem;
         }
 
         .refresh-btn {
@@ -128,13 +256,50 @@
 
         .no-data {
             text-align: center;
-            padding: 3rem;
-            color: #888;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+        
+        .no-data i {
+            color: var(--text-muted);
+            opacity: 0.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .no-data h3 {
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
         .timestamp {
             font-size: 0.8rem;
-            color: #aaa;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        
+        .badge {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .bg-success {
+            background: linear-gradient(135deg, var(--success-green), #059669) !important;
+            color: white !important;
+        }
+        
+        .bg-info {
+            background: linear-gradient(135deg, var(--info-blue), #2563EB) !important;
+            color: white !important;
+        }
+        
+        .bg-warning {
+            background: linear-gradient(135deg, var(--warning-orange), #D97706) !important;
+            color: white !important;
         }
 
         .spinner-border {
@@ -165,7 +330,7 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h1 class="dashboard-title">Manufacturing Dashboard</h1>
-                <p class="text-muted" id="manufacturerName">Loading...</p>
+                <p class="dashboard-subtitle" id="manufacturerName">Loading...</p>
             </div>
 
             <!-- Loading State -->
@@ -182,25 +347,25 @@
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card">
                             <div class="stat-number" id="totalBatches">0</div>
-                            <div class="text-muted" id="totalBatchesLabel">Total Batches</div>
+                            <div class="stat-label" id="totalBatchesLabel">Total Batches</div>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card">
                             <div class="stat-number" id="totalScans">0</div>
-                            <div class="text-muted" id="totalScansLabel">Total Scans</div>
+                            <div class="stat-label" id="totalScansLabel">Total Scans</div>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card">
                             <div class="stat-number" id="activeToday">0</div>
-                            <div class="text-muted" id="activeTodayLabel">Scans Today</div>
+                            <div class="stat-label" id="activeTodayLabel">Scans Today</div>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card">
                             <div class="stat-number" id="uniqueSuppliers">0</div>
-                            <div class="text-muted" id="uniqueSuppliersLabel">Unique Suppliers</div>
+                            <div class="stat-label" id="uniqueSuppliersLabel">Unique Suppliers</div>
                         </div>
                     </div>
                 </div>
