@@ -349,6 +349,12 @@
       "email": "supplier@logistics.com",
       "loginTime": "2025-09-25T22:40:26.641092",
       "lastActivity": "2025-09-25T22:40:26.641097"
+    },
+    {
+      "userId": 1,
+      "email": "manufacturer@techcorp.com",
+      "loginTime": "2025-09-25T23:11:25.385608",
+      "lastActivity": "2025-09-25T23:11:25.385612"
     }
   ],
   "lastSessionId": 1

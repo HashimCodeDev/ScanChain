@@ -531,8 +531,11 @@
                         </div>
                         <div class="text-end">
                             <div class="badge bg-success mb-2">${batchScans.length} Scans</div><br>
-                            <button class="btn btn-primary btn-sm" onclick="viewBatchDetails('${batch.batchId}')">
+                            <button class="btn btn-primary btn-sm me-1" onclick="viewBatchDetails('${batch.batchId}')">
                                 <i class="fas fa-eye me-1"></i>Details
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="downloadQR('${batch.batchId}')">
+                                <i class="fas fa-qrcode"></i>
                             </button>
                         </div>
                     </div>
@@ -579,8 +582,11 @@
                         </div>
                         <div class="text-end">
                             <div class="badge bg-info mb-2">${batch.scanCount || 1} Time(s)</div><br>
-                            <button class="btn btn-primary btn-sm" onclick="viewBatchDetails('${batch.batchId || batch.productId}')">
+                            <button class="btn btn-primary btn-sm me-1" onclick="viewBatchDetails('${batch.batchId || batch.productId}')">
                                 <i class="fas fa-eye me-1"></i>View
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="downloadQR('${batch.batchId || batch.productId}')">
+                                <i class="fas fa-qrcode"></i>
                             </button>
                         </div>
                     </div>
@@ -611,8 +617,11 @@
                         </div>
                         <div class="text-end">
                             <div class="badge bg-warning mb-2">${batch.viewCount || 1} Time(s)</div><br>
-                            <button class="btn btn-primary btn-sm" onclick="viewBatchDetails('${batch.batchId || batch.productId}')">
+                            <button class="btn btn-primary btn-sm me-1" onclick="viewBatchDetails('${batch.batchId || batch.productId}')">
                                 <i class="fas fa-eye me-1"></i>View
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="downloadQR('${batch.batchId || batch.productId}')">
+                                <i class="fas fa-qrcode"></i>
                             </button>
                         </div>
                     </div>
@@ -646,6 +655,35 @@
         function viewBatchDetails(batchId) {
             // Redirect to batch details page or show modal
             window.open(`/verify?productId=${batchId}`, '_blank');
+        }
+
+        async function downloadQR(productId) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch(`/api/qr/${productId}/download`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `qr-${productId}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    showAlert('success', 'QR code downloaded successfully!');
+                } else {
+                    throw new Error('Failed to download QR code');
+                }
+            } catch (error) {
+                console.error('QR download error:', error);
+                showAlert('danger', 'Error downloading QR code: ' + error.message);
+            }
         }
 
         function showAlert(type, message) {

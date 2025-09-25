@@ -666,6 +666,100 @@ def search_products():
             'error': str(e)
         }), 500
 
+# QR Code download endpoint
+@app.route('/api/qr/<product_id>', methods=['GET'])
+@jwt_required()
+def get_product_qr(product_id):
+    try:
+        # Get product from database
+        product = db_service.get_batch(product_id)
+        if not product:
+            return jsonify({
+                'success': False,
+                'error': 'Product not found'
+            }), 404
+        
+        # Generate QR code for the product
+        qr_result = qr_service.generate_product_qr(
+            product_id,
+            product.get('contractAddress', os.getenv('BSC_CONTRACT_ADDRESS', '0x0000000000000000000000000000000000000000')),
+            {
+                'batchName': product.get('batchName'),
+                'manufacturer': product.get('manufacturerName'),
+                'productType': product.get('productType')
+            }
+        )
+        
+        return jsonify({
+            'success': True,
+            'productId': product_id,
+            'qrCode': qr_result['qrImage'],
+            'qrData': qr_result['qrData'],
+            'productInfo': {
+                'batchName': product.get('batchName'),
+                'manufacturerName': product.get('manufacturerName'),
+                'productType': product.get('productType'),
+                'description': product.get('description')
+            }
+        })
+    
+    except Exception as e:
+        print(f"Get QR code error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+# QR Code image download endpoint (returns PNG directly)
+@app.route('/api/qr/<product_id>/download', methods=['GET'])
+@jwt_required()
+def download_product_qr(product_id):
+    try:
+        from flask import Response
+        import base64
+        
+        # Get product from database
+        product = db_service.get_batch(product_id)
+        if not product:
+            return jsonify({
+                'success': False,
+                'error': 'Product not found'
+            }), 404
+        
+        # Generate QR code for the product
+        qr_result = qr_service.generate_product_qr(
+            product_id,
+            product.get('contractAddress', os.getenv('BSC_CONTRACT_ADDRESS', '0x0000000000000000000000000000000000000000')),
+            {
+                'batchName': product.get('batchName'),
+                'manufacturer': product.get('manufacturerName'),
+                'productType': product.get('productType')
+            }
+        )
+        
+        # Extract base64 image data
+        qr_image_data = qr_result['qrImage']
+        if qr_image_data.startswith('data:image/png;base64,'):
+            qr_image_data = qr_image_data[22:]  # Remove data URL prefix
+        
+        # Decode base64 to binary
+        img_binary = base64.b64decode(qr_image_data)
+        
+        return Response(
+            img_binary,
+            mimetype='image/png',
+            headers={
+                'Content-Disposition': f'attachment; filename="qr-{product_id}.png"'
+            }
+        )
+    
+    except Exception as e:
+        print(f"Download QR code error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
 # Frontend routes
 @app.route('/')
 def serve_login():
